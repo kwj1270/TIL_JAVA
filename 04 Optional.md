@@ -20,8 +20,35 @@ Optional 은 멤버 value에 인스턴스를 저장하는 일종의 래퍼클래
 ```of()``` 같은 경우 null일 경우 예외를 발생하는 것이므로 `if(obj==null)`가 아닌 예외를 발생시켜 던지는 것이다.           
 반대로 ```ofNullable()```은 관련 메서드를 사용하되 ```orElse()```를 사용하여 null일 경우의 로직도 구성할 수 있다.   
 
-**예시**
+**문자열이 존재할 경우**
 ```java
-Optional<String> op = Optional.of("Hello World!");   
-op.map()
+public class StringTest {
+    public static void main(String[] args) {
+        String str = getString();
+        Optional<String> op = Optional.ofNullable(str);
+        String text = op.map(String::toUpperCase).orElse("GoodBye World!");
+        System.out.println(text);
+    }
+    public static String getString(){
+        return "Hello World!";
+    }
+}
 ```
+출력 : "HELLO WORLD!"        
+      
+**Null일 경우**
+```java
+public class StringTest {
+    public static void main(String[] args) {
+        String str = getString();
+        Optional<String> op = Optional.ofNullable(str);
+        String text = op.map(String::toUpperCase).orElse("GoodBye World!");
+        System.out.println(text);
+    }
+    public static String getString(){
+        return null;
+    }
+}
+```
+출력 : "GoodBye World!"     
+   
