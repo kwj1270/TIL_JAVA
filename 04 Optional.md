@@ -33,8 +33,8 @@ public class StringTest {
         return "Hello World!";
     }
 }
+// 출력 : "HELLO WORLD!"        
 ```
-출력 : "HELLO WORLD!"        
       
 **Null일 경우**
 ```java
@@ -49,6 +49,6 @@ public class StringTest {
         return null;
     }
 }
+// 출력 : "GoodBye World!"     
 ```
-출력 : "GoodBye World!"     
    
