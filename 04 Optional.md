@@ -52,3 +52,14 @@ public class StringTest {
 // 출력 : "GoodBye World!"     
 ```
    
+## 메서드
+**중간 연산**   
+|메서드|설명|
+|----------|----------|
+|isPresent()|Optional 객체안에 값이 있는지 boolean 타입으로 반환|
+|get()|Optional 객체안에 있는 값을 반환|
+|ifPresent(Consumer<? super T>)|값이 있다면 해당 값을 이용한 동작 람다로 기술|
+|map(Function<? super T, ? extends U>)|T로 들어온 값을 U형태로 반환 -> 제네릭에 데이터 1개만 기술해도 2개 적용|   
+|orElse(대신 반환 객체)|제네릭에 맞춘 데이터형을 반환 -> 이부분은 개발자 고려해야 한다.|
+|empty()|Optional 객체안에 있는 값을 비운다. -> NULL로 만든다.|   
+
