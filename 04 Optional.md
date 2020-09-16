@@ -62,4 +62,66 @@ public class StringTest {
 |map(Function<? super T, ? extends U>)|T로 들어온 값을 U형태로 반환 -> 제네릭에 데이터 1개만 기술해도 2개 적용|   
 |orElse(대신 반환 객체)|제네릭에 맞춘 데이터형을 반환 -> 이부분은 개발자 고려해야 한다.|
 |empty()|Optional 객체안에 있는 값을 비운다. -> NULL로 만든다.|   
+    
+## Optional 이용 결과 
 
+```java
+import java.util.Optional;
+
+
+class Friend {
+    String name;
+    Company cmp;
+
+    public Friend(String name, Company cmp) {
+        this.name = name;
+        this.cmp = cmp;
+    }
+
+    public String getName() { return name; }
+    public Company getCmp() { return cmp; }
+
+}
+
+class Company {
+    String cName;
+    ContInfo cInfo;
+    
+    public Company(String cName, ContInfo cInfo){
+        this.cName = cName;
+        this.cInfo = cInfo;
+    }
+
+    public String getcName() { return cName; }
+    public ContInfo getcInfo() { return cInfo; }
+}
+
+class ContInfo{
+    String phone;
+    String ards;
+    
+    public ContInfo(String phone, String ards){
+        this.phone = phone;
+        this.ards = ards;
+    }
+
+    public String getPhone() { return phone; }
+    public String getArds() { return ards; }
+}
+
+public class NullPointerCaseStudy2 {
+    public static void showCompAddr(Optional<Friend> op){
+        String addr = op.map(Friend::getCmp)
+                        .map(Company::getcInfo)
+                        .map(ContInfo::getArds)
+                        .orElse("There's no address information");
+    }
+    public static void main(String[] args) {
+        ContInfo ci = new ContInfo("321-444-577", "Republic of Korea");
+        Company cp = new Company("YaHo CO., Ltd.", ci);
+        Friend frn = new Friend("LEE SU", cp);
+        showCompAddr(Optional.ofNullable(frn));
+    }
+}
+
+```
