@@ -59,10 +59,10 @@ public class StringTest {
 |isPresent()|Optional 객체안에 값이 있는지 boolean 타입으로 반환|
 |get()|Optional 객체안에 있는 값을 반환|
 |ifPresent(Consumer<? super T>)|값이 있다면 해당 값을 이용한 동작 람다로 기술|
-|map(Function<? super T, ? extends U>)|T로 들어온 값을 U형태로 반환 -> 제네릭에 데이터 1개만 기술해도 2개 적용|   
+|map(Function<? super T, ? extends U>)|T로 들어온 값을 Optional<U>형태로 반환 -> 제네릭에 데이터 1개만 기술해도 2개 적용|   
 |orElse(대신 반환 객체)|제네릭에 맞춘 데이터형을 반환 -> 이부분은 개발자 고려해야 한다.|
 |empty()|Optional 객체안에 있는 값을 비운다. -> NULL로 만든다.|   
-    
+|flatMap(Function<? super T, ? extends U>)|리턴형이 Optional<u>가 아닌 단순 U이다.|    
 ## Optional 이용 코드 
 
 ```java
@@ -115,6 +115,7 @@ public class NullPointerCaseStudy2 {
                         .map(Company::getcInfo)
                         .map(ContInfo::getArds)
                         .orElse("There's no address information");
+        System.out.println(addr);
     }
     public static void main(String[] args) {
         ContInfo ci = new ContInfo("321-444-577", "Republic of Korea");
@@ -123,5 +124,62 @@ public class NullPointerCaseStudy2 {
         showCompAddr(Optional.ofNullable(frn));
     }
 }
-
 ```
+
+## flatMap() 사용    
+```flatMap()```은 Optional<U> 객체로 반환하는 것이 아닌 단순 U를 반환한다.          
+**그러면 도대체 어떻게 사용하려고 하는 것일까?**             
+        
+위 코드에서의 클래스내의 존재하는 인스턴스 참조 변수들도 Optional 처리를 해주면 좋을것이다.     
+그래서 인스턴스 참조 변수들을 Optional로 감싼 변수로 만들어줬다.       
+         
+**개선 전**    
+```java
+    String phone;
+    String ards;
+```  
+**개선 후**    
+```java
+    Optional<String> phone;
+    Optional<String> ards;
+```
+그리고 기존 getter 메서드는 해당 값 그대로 리턴해야 하기 때문에 `Optional<클래스>` 하게끔 수정해준다.     
+
+**개선 전**
+```java
+    public String getPhone() { return phone; }
+    public String getArds() { return ards; }
+```
+**개선 후**
+```java
+    public Optional<String> getPhone() { return phone; }
+    public Optional<String> getArds() { return ards; }
+```
+
+하지만 이렇게 인스턴스 참조 변수도 `Optional`로 만들고 getter도 이에 맞춰서 `Optional<클래스>`를 반환하게 한다면     
+리턴에서 이미 `Optional<클래스>`이기에 `map()`을 사용하게 되면 `Optional<Optional<클래스>>`가 리턴된다.         
+그러므로 이럴 때는 단순 값만 반환해주는 `flatMap()` 사용이 더 적합하다.             
+     
+**개선 전**
+```java
+    public static void showCompAddr(Optional<Friend> op){
+        String addr = op.map(Friend::getCmp)
+                        .map(Company::getcInfo)
+                        .map(ContInfo::getArds)
+                        .orElse("There's no address information");
+        System.out.println(addr);
+    }
+```
+   
+**개선 후**
+```java
+    public static void showCompAddr(Optional<Friend> op){
+        String addr = op.flatMap(Friend::getCmp)
+                        .flatMap(Company::getcInfo)
+                        .flatMap(ContInfo::getArds)
+                        .orElse("There's no address information");
+
+        System.out.println(addr);
+    }
+```
+      
