@@ -63,7 +63,7 @@ public class StringTest {
 |orElse(대신 반환 객체)|제네릭에 맞춘 데이터형을 반환 -> 이부분은 개발자 고려해야 한다.|
 |empty()|Optional 객체안에 있는 값을 비운다. -> NULL로 만든다.|   
     
-## Optional 이용 결과 
+## Optional 이용 코드 
 
 ```java
 import java.util.Optional;
