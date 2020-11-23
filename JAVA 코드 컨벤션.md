@@ -552,10 +552,10 @@ try {
     statements;
 }
 ```   
-* try-catch 문은 try 블록이 성공적으로 완료되든지,         
-아니면 중간에 에러가 발생하든지에 상관없이 실행되어야 하는 부분을 추가하기 위해서 finally 부분을 사용할 수 있다.       
-
-```
+* try-catch 문은 try 블록이 성공적으로 완료되든지, 아니면 중간에 에러가 발생하든지에 상관없이    
+실행되어야 하는 부분을 추가하기 위해서 finally 부분을 사용할 수 있다.          
+    
+```java
 try {
     statements;
 } catch (ExceptionClass e) {
