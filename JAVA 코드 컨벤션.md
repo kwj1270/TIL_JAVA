@@ -86,9 +86,7 @@ import java.util.*;
 * 만약 위의 원칙들이 코드를 더 복잡하게 하거나 오른쪽 끝을 넘어간다면, 대신에 8개의 빈 칸을 사용해 들여쓴다.
 
 ```java
-longName1 = longName2// 일반적인 들여쓰기 someMethod(int anArg, Object anotherArg, String yetAnotherArg, Object andStillAnother) { ... } // 너무 멀리 들여쓰는 것을 피하기 위해 8개의 빈 칸으로 들여쓰기 private static synchronized horkingLongMethodName(int anArg, Object anotherArg, String yetAnotherArg, Object andStillAnother) { ... }
-
-출처: https://myeonguni.tistory.com/1596 [명우니닷컴] * (longName3 + longName4 - longName5) 
+longName1 = longName2 * (longName3 + longName4 - longName5)
         + 4 * longname6; // 될 수 있으면 이 방법을 사용한다. 
         
 longName1 = longName2 * (longName3 + longName4 
