@@ -82,8 +82,14 @@ JAVA가 아닌 다른 언어로 작성된 코드를 위한 공간이다.
 대부분의 인스턴스의 생성도 메서드 내에서 명령하고 호출한다.(main 메서드부터 시작)      
 이 공간에는 **Runtime Constant Pool**이라는 별도의 관리 영역도 함께 존재한다.      
 이는 상수 자료형을 저장하여 참조하고 중복을 막는 역할을 수행한다.    
-
-
+  * 올라가는 정보의 종류 : 
+    * Field Information : 맴버변수의 이름, 데이터 타입, 접근 제어자에 대한 정보     
+    * Method Information : 메서드의 이름, 리턴타입, 매개변수, 접근제어자에 대한 정보       
+    * Type Information : class인지 interface인지의 여부 저장 / Type의 속성, 전체 이름, super class의 전체 이름         
+Method Area는 클래스 데이터를 위한 공간이라면 
+Heap 영역이 객체를 위한 공간이다.   
+Heap 과 마찬가지로 GC의 관리 대상에 포함된다.   
+ 
 
  
  
