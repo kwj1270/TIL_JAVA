@@ -1,2 +1,2 @@
-# TIL_JAVA_MORE_EDUCATE
-자바 문법 심화 정리
+# TIL_JAVA
+JAVA 정리를 위한 레포지토리
