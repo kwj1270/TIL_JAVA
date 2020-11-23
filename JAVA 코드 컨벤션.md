@@ -55,6 +55,8 @@ package java.code.convention;
 import java.util.*;
 ```
 
+### Class와 Interface 선언
+
 |순서|클래스/인터페이스 <br> 선언의 구성요소|설명|
 |---|-------------------------|----|
 |1|문서화 주석 <br>`(/** .. */)`|이 주석이 포함하는 정보들은 아래 "5장의 2절 문서화(Documentation) 주석"을 참고|
@@ -64,6 +66,49 @@ import java.util.*;
 |5|일반 변수|`public` -> `protected` -> `package` -> `private`|
 |6|생성자||	 
 |7|메서드|메서드들은 범위나 접근성을 기준으로 나누기 보다는 기능성에 의해서 구성되어야 한다.<br> 예를 들어, private 클래스 메서드가 두 개의 public 메서드들 사이에 존재할 수도 있다.<br> 이렇게 하는 목적은 코드가 더 쉽게 읽히고, 더 쉽게 이해되도록 돕기 위해서이다.<br> 쉽게 얘기하면 호출하는 메서드와 호출되는 메서드는 가까이 붙는 것이 좋다.|
+
+## 들여쓰기 
+* 4개의 빈 칸(space)를 들여쓰기 단위로 사용한다. 
+* 들여쓰기의 정확한 구현(빈 칸을 사용하거나 탭을 사용하거나)은 정해져 있지 않다. 
+* 탭은 4개의 빈 칸이 아니라, 8개의 빈 칸으로 설정하는 것이 좋다. 
+ 
+### 한 줄의 길이
+* 한 줄에 80자 이상 쓰는 것은 대부분의 터미널(terminal)과 툴에서 다룰 수 없기 때문에 피해야 한다.
+* 문서화 주석을 가지고 문서를 만들 때, 일반적으로 한 줄에 70자 이상을 가지지 않는다.
+
+### 2 줄 나누기
+> 하나의 식이 한 줄에 들어가지 않을 때에는, 다음과 같은 일반적인 원칙들을 따라서 두 줄로 나눈다.
+
+* 콤마 후에 두 줄로 나눈다. 
+* 연산자(operator) 앞에서 두 줄로 나눈다.
+* 레벨이 낮은 원칙보다는 레벨이 높은 원칙에 따라 두 줄로 나눈다.
+* 앞줄과 같은 레벨의 식(expression)이 시작되는 새로운 줄은 앞줄과 들여쓰기를 일치시킨다.
+* 만약 위의 원칙들이 코드를 더 복잡하게 하거나 오른쪽 끝을 넘어간다면, 대신에 8개의 빈 칸을 사용해 들여쓴다.
+
+```java
+longName1 = longName2// 일반적인 들여쓰기 someMethod(int anArg, Object anotherArg, String yetAnotherArg, Object andStillAnother) { ... } // 너무 멀리 들여쓰는 것을 피하기 위해 8개의 빈 칸으로 들여쓰기 private static synchronized horkingLongMethodName(int anArg, Object anotherArg, String yetAnotherArg, Object andStillAnother) { ... }
+
+출처: https://myeonguni.tistory.com/1596 [명우니닷컴] * (longName3 + longName4 - longName5) 
+        + 4 * longname6; // 될 수 있으면 이 방법을 사용한다. 
+        
+longName1 = longName2 * (longName3 + longName4 
+                       - longName5) + 4 * longname6; // 될 수 있으면 피한다.
+```
+* 첫번째 예제가 괄호로 싸여진 표현식 밖에서 줄 바꿈이 일어나고 더 높은 레벨이기 때문에 첫번째 예제를 더 많이 사용한다.
+
+```java
+// 일반적인 들여쓰기 
+someMethod(int anArg, Object anotherArg, String yetAnotherArg, 
+        Object andStillAnother) { 
+    ... 
+} // 너무 멀리 들여쓰는 것을 피하기 위해 8개의 빈 칸으로 들여쓰기 
+
+private static synchronized horkingLongMethodName(int anArg, 
+        Object anotherArg, String yetAnotherArg, 
+        Object andStillAnother) { 
+    ... 
+}
+```
 
  
 # 참고 
