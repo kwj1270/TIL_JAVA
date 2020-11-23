@@ -411,9 +411,160 @@ for (int i = 0; i < maxLoops; i++) {
 (이렇게 사용하는 것이 중괄호를 닫는 것을 잊어버리는 것 때문에 발생하는 버그를 만들지 않고, 문을 추가하는 것에 큰 도움을 준다).    
   * 즉, 한 줄 짜리 코드만 있더라도 중괄호를 써주는 습관을 들이자는 말이다.    
 
-## 
+## return 문
+> 값을 반환하는 return 문은 특별한 방법으로 더 확실한 return 값을 표현하는 경우를 제외하고는 괄호를 사용하지 않는 것이 좋다.
 
+```java
+return;
+  
+return myDisk.size();
+  
+return (size ? size : defaultSize);
+```
+* 쉽게 얘기하면 삼항 연산자나 연산자 우선 순위로 인해 헷갈릴때와 같이 구분하기 힘들때 사용하는 것이 좋다.   
 
+## if, if-else, if else-if else 문
+> if-else 문을 사용할 때는 다음과 같이 작성한다.    
+   
+```java
+if (condition) {
+    statements;
+}
+                     
+if (condition) {
+    statements;
+} else {
+    statements;
+}
+  
+if (condition) {
+    statements;
+} else if (condition) {
+    statements;
+} else {
+    statements;
+}
+```
+* if/elseif/else 와 `()` 사이에 한 칸 띄어쓰기를 진행한다.   
+* `()`과 `{}`사이에 한 칸 띄어쓰기를 진행한다.
+* `if-elseif-else` 는 서로가 끝날 때 시작하게 코드를 작성한다.
+* 닫는 중괄호는 첫번째 if 의 들여쓰기와 맞춰준다.   
+
+```java
+if (condition) // 이렇게 중괄호 {}를 생략해서 사용하지 말자 
+    statement;
+```
+* if 문은 항상 중괄호를 사용한다. 다음과 같은 에러가 발생할 수 있는 상황은 피해야 한다.
+
+## for 문
+> for 문은 다음과 같이 사용하자         
+   
+```java
+for (initialization; condition; update) {
+    statements;
+}
+```
+* for 와 `()`사이에 한 칸 띄어쓰기를 진행해준다.  
+* `()`과 `{}`사이에 한 칸 띄어쓰기를 진행한다.
+
+```java
+for (initialization; condition; update);
+```
+```java
+for (initialization; condition; update)
+;
+```
+* 빈 for 문(모든 작업이 initialization, condition, update 에서 완료되는)은 위와 같은 형태를 가져야 한다.
+* 하지만 클린 코드에서는 아래와 같은 방법을 지향하니까 본인이 속한 팀의 규칙대로 사용하면 괜찮을 것이다.      
+ 
+이외에도        
+for 문의 initialization 또는 update 부문에서 콤마(,) 연산자를 사용할 때에는 세개 이상의 변수들을 사용하는 복잡성은 피해야 한다.       
+만약 필요하다면, for 문 이전에 문을 분리시켜 사용(initialization절의 경우)하거나 for 문의 마지막에 문을 분리시켜 사용(update절의 경우)한다.      
+    
+## while 문
+> while 문은 다음과 같이 작성한다.    
+    
+```java
+while (condition) {
+    statements;
+}
+```
+* while 과 `()`사이에 한 칸 띄어쓰기를 진행해준다.  
+* `()`과 `{}`사이에 한 칸 띄어쓰기를 진행한다.
+
+```java
+while (condition);
+```
+```java
+while (condition)
+;
+```
+* 빈 while 문은 위와 같은 방법으로 작성한다.
+* 하지만 클린 코드에서는 아래와 같은 방법을 지향하니까 본인이 속한 팀의 규칙대로 사용하면 괜찮을 것이다.      
+   
+## do-while 문   
+> do-while 문은 다음과 같이 작성한다.        
+    
+```java
+do {
+    statements;
+} while (condition);
+```
+* do 와 `{}`사이에 한 칸 띄어쓰기를 진행해준다.  
+       
+## switch 문
+> switch 문은 다음과 같이 작성한다.    
+    
+```java
+switch (condition) {
+case ABC:
+    statements;
+    /* 다음줄로 계속 진행한다. */
+  
+case DEF:
+    statements;
+    break;
+  
+case XYZ:
+    statements;
+    break;
+  
+default:
+    statements;
+    break;
+}
+```
+* switch 와 `()` 사이에 한 칸 띄어쓰기를 진행해준다. 
+* `()`과 `{}`사이에 한 칸 띄어쓰기를 진행한다.
+* case 와 value 사이에 한 칸 띄어쓰기를 진행한다.  
+* value 와 `:`는 붙여쓰기를 진행한다.    
+* 모든 case를 수행해야 하는 경우에는 break 문을 사용안하면 된다. (첫번째 case와 같이)   
+* 모든 switch 문은 default case를 포함해야 한다.      
+* default case에서 break는 중복적이지만, 이후에 또 다른 case가 추가되어질 경우 에러를 방지하기 위해 작성해주자   
+
+## try-catch 문    
+> try-catch 문은 다음과 같이 작성한다.    
+     
+```java
+try {
+    statements;
+} catch (ExceptionClass e) {
+    statements;
+}
+```   
+* try-catch 문은 try 블록이 성공적으로 완료되든지,         
+아니면 중간에 에러가 발생하든지에 상관없이 실행되어야 하는 부분을 추가하기 위해서 finally 부분을 사용할 수 있다.       
+
+```
+try {
+    statements;
+} catch (ExceptionClass e) {
+    statements;
+} finally {
+    statements;
+}
+```
+* 궁금증 : 코드가 중복이 일어날 수 있지 않나? 오히려 다른 설계법을 찾을 것 같다.       
 
 
 
