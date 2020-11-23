@@ -107,8 +107,46 @@ private static synchronized horkingLongMethodName(int anArg,
     ... 
 }
 ```
+* 블록을 진행하기 전에 일반적인 들여쓰기를 사용한다면 4개의 빈칸 대신에, 8개의 빈 칸을 이용하여 들여쓴다.
 
- 
+```java
+// 아래와 같은 들여쓰기는 사용하지 말자. 
+if ((condition1 && condition2) 
+    || (condition3 && condition4) 
+    ||!(condition5 && condition6)) { // 좋지 않은 들여쓰기 
+    doSomethingAboutIt(); // 메서드 본문 시작이 명확하지가 않다. 
+} 
+
+// 대신에 아래와 같은 들여쓰기를 사용한다. 
+if ((condition1 && condition2) 
+        || (condition3 && condition4) 
+        ||!(condition5 && condition6)) { 
+    doSomethingAboutIt(); 
+} 
+
+// 또는 아래와 같은 들여쓰기를 사용한다. 
+if ((condition1 && condition2) || (condition3 && condition4) 
+        ||!(condition5 && condition6)) { 
+    doSomethingAboutIt(); 
+}
+```
+* 블록을 진행하기 전에 일반적인 들여쓰기를 사용한다면 4개의 빈칸 대신에, 8개의 빈 칸을 이용하여 들여쓴다.
+
+```java
+alpha = (aLongBooleanExpression) ? beta : gamma; 
+
+alpha = (aLongBooleanExpression) ? beta 
+                                 : gamma; 
+
+alpha = (aLongBooleanExpression) 
+    ? beta 
+    : gamma;
+```
+* 삼항식(ternary expression)에서는 세 가지 방법 전부 사용 가능하다.    
+    
+## 주석 
+
+    
 # 참고 
 블로그 :    
 https://myeonguni.tistory.com/1596    
