@@ -791,9 +791,126 @@ d = a + r;
 * 실행시 성능 향상을 위해서 할당문(assignment statement)안에 또 다른 할당문을 사용하지 말자
 
 ## 그 외 신경써야 할 것들
+### 괄호   
+
+```java
+if (a == b && c == d)     // 이렇게 사용하지 말자
+if ((a == b) && (c == d)) // 이렇게 사용하자
+```
+* 연산자 우선순위 문제를 피하기 위해서 복합 연산자를 포함하는 경우에는 자유롭게 괄호를 사용하는 것이 좋은 생각이다
+* 작성자는 연산자 우선 순위를 확실하게 알고 있다고 할지라도, 다른 프로그래머에게는 생소할 수 있다는 것을 기억하자.
+
+### 반환 값   
+> 프로그램의 구조와 목적이 일치해야 한다.    
+```java
+// 이렇게 사용하지 말자
+if (booleanExpression) {
+    return true;
+} else {
+    return false;
+}
+
+// 다음과 같이 써야 한다
+return booleanExpression;
+```
+
+```java
+// 이렇게 사용하지 말자
+if (condition) {
+    return x;
+}
+return y;
+
+// 다음과 같이 써야 한다
+return (condition ? x : y);
+```
+
+### 조건 연산자 '?' 이전에 나오는 식(expression)
+
+```java
+(x >= 0) ? x : -x;
+```
+* 삼항 연산자(ternary operator -`?:`) 에서     
+* `?` 이전에 이항 연산자(binary operator)를 포함하는 식(expression)이 있는 경우에는, 꼭 괄호를 사용해야 한다.
+
+# 코드 예제   
+## 자바 소스 파일 예제   
+```java
+/*
+ * @(#)CodeConvention.java        0.82 2000/1/17
+ *
+ * [저작권 및 라이센스 관련 정보를 여기에 작성한다.]
+ * Copyright (c) 2015 Kwangshin Oh.
+ * ComputerScience, ProgrammingLanguage, Java, Seoul, KOREA
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of Kwangshin
+ * Oh ("Confidential Information").  You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Kwangshin Oh.
+ */
+  
+  
+package kwangshin.codeconvention;
+  
+import kwangshin.*;
+  
+/**
+ * 클래스에 대한 설명을 여기에 작성한다.
+ *
+ * @version          1.00 2015년 2월 9일
+ * @author           오광신
+ */
+public class CodeConvention extends Convention {
+    /* 클래스의 구현 주석을 여기에 작성한다. */
+  
+    /** 클래스 변수 classVar1에 대한 설명을 여기에 작성한다. (문서 주석) */
+    public static int classVar1;
+  
+    /** 
+     * 클래스 변수 classVar2에 대한 설명이 (문서 주석이)
+     * 한 줄 이상일 경우 이렇게 작성한다.(접근 제어자가 private일 경우 나오지는 않음.)
+     */
+    private static Object classVar2;
+  
+    /** 인스턴스 변수 instanceVar1에 대한 설명을 여기에 작성한다.(문서 주석) */
+    public Object instanceVar1;
+  
+    /** 인스턴스 변수 instanceVar2에 대한 설명을 여기에 작성한다.(문서 주석) */
+    protected int instanceVar2;
+  
+    /** 인스턴스 변수 instanceVar3에 대한 설명을 여기에 작성한다.(문서 주석) 접근 제어자가 private일 경우 나오지는 않음. */
+    private Object[] instanceVar3;
+  
+    /** 
+     * ... 생성자 CodeConvention()에 대한 설명을 여기에 작성한다.(문서 주석) ...
+     */
+    public CodeConvention() {
+        // ... 여기에 실제 코드를 작성한다. ...
+    }
+  
+    /**
+     * ... 메서드 doSomething()에 대한 설명을 여기에 작성한다.(문서 주석) ...
+     */
+    public void doSomething() {
+        // ... 여기에 실제 코드를 작성한다. ... 
+    }
+  
+    /**
+     * ... 메서드 doSomethingElse()에 대한 설명을 여기에 작성한다.(문서 주석) ...
+     * @param someParam 파라미터에 대한 설명
+     * @return String 리턴값에 대한 설명
+     * @exception exception 예외사항에 대한 설명
+     */
+    public String doSomethingElse(Object someParam) {
+        // ... 여기에 실제 코드를 작성한다. ... 
+    }
+}
+```
 
 # 참고 
 블로그 :    
-https://myeonguni.tistory.com/1596    
-http://kwangshin.pe.kr/blog/java-code-conventions-%EC%9E%90%EB%B0%94-%EC%BD%94%EB%94%A9-%EA%B7%9C%EC%B9%99/    
-https://velog.io/@aidenshin/Java-%EC%9E%90%EB%B0%94-%EC%BD%94%EB%94%A9-%EA%B7%9C%EC%B9%99-Java-Code-Conventions    
+https://myeonguni.tistory.com/1596       
+http://kwangshin.pe.kr/blog/java-code-conventions-%EC%9E%90%EB%B0%94-%EC%BD%94%EB%94%A9-%EA%B7%9C%EC%B9%99/       
+https://velog.io/@aidenshin/Java-%EC%9E%90%EB%B0%94-%EC%BD%94%EB%94%A9-%EA%B7%9C%EC%B9%99-Java-Code-Conventions       
