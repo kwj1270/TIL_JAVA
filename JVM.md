@@ -4,6 +4,8 @@ JVM
 > 코드를 실행하고 해당 코드에 대해 런타임 환경을 제공하는 소프트웨어 프로그램에 대한 사양(Specification)이다.    
 
 # JVM 이란?   
+![jvm](https://user-images.githubusercontent.com/50267433/102702655-72a09e80-42a8-11eb-85a1-1df74e365371.png)      
+      
 * `자바 애플리케이션`을 `클래스 로더`를 통해 읽어 들여 `자바 API`와 함께 **실행**한다.      
 * JAVA와 OS 사이의 **중개자 역할**을 수행하여 JAVA가 OS에 종속되지 않고 재사용할 수 있도록 해준다.     
 * **메모리 관리**, **Garbage collection**을 수행한다.   
