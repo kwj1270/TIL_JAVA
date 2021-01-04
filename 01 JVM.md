@@ -101,6 +101,24 @@ JVM을 통해 OS에 맞는 기계어(Machine code)로 변환한다.
     
 |커맨드|예시|설명|   
 |-----|---|---|  
+|-cp, -classpath|-classpath(cp) path<br>-cp `.; C:\my\dir` |컴파일시 필히 참조할 클래스의 경로 입력<br>컴파일 대상이 아닌 연관된 클래스의 경로<br>2개 입력 원할시 `;`으로 추가하면 된다.|
+|-jar|-jar fileName.jar|jar파일로 압축되어져 있는 자바 프로그램을 실행시킨다.<br>단, Jar파일안의 manifest라는 텍스트 파일에<br>Main-Class:classname 같은 형태의 텍스트 라인이 포함되어 있어야 한다.|
+|-verbose|-verbose<br>-verbose:class<br>-verbose:gc<br>-verbose:jni|자바프로그램 실행되어지는 정보를 화면에 출력해준다.<br>:class 로딩되어지는 각클래스들의 정보를 화면에 출력한다.<br>:gc garbage collection 이벤트를 화면에 출력한다.<br>:jni native 함수들과 다른 자바 native 인터페이스 사용에 대한 정보를 출력한다|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     
 # 전체적인 과정   
