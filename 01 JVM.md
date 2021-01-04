@@ -41,8 +41,8 @@
 **`.java 파일` :** Java 언어로 작성한 파일     
 **`.class 파일` :** Java 파일을 JVM이 이해할 수 있는 언어로 변환한 파일     
    
-```cmd
-> javac <option> <파일명.java>   
+```cmd     
+> javac [ options ] [ sourcefiles ] [ classes ] [ @argfiles ]
 ```   
 ![](https://images.velog.io/images/kwj1270/post/4293bd8f-7a3c-44d7-b59b-4d619777bc9b/complie.png)     
       
@@ -58,10 +58,7 @@
 `참고 :` https://quasarzone.com/bbs/qf_cmr/views/31834       
     
 **컴파일 옵션**     
-```cmd     
-javac [ options ] [ sourcefiles ] [ classes ] [ @argfiles ]
-```   
-   
+     
 |커맨드|예시|설명|   
 |-----|---|---|  
 |-cp, -classpath|-classpath(cp) path<br>-cp `.; C:\my\dir` |컴파일시 필히 참조할 클래스의 경로 입력<br>컴파일 대상이 아닌 연관된 클래스의 경로<br>2개 입력 원할시 `;`으로 추가하면 된다.|
@@ -86,9 +83,9 @@ javac [ options ] [ sourcefiles ] [ classes ] [ @argfiles ]
 # 실행하는 방법   
 > **Run :** 컴퓨터 프로그램을 실행         
 > **Runtime :** 컴퓨터 프로그램이 실행되고 있는 동안의 동작     
-   
+     
 ```cmd  
-> java <파일명> 
+> java [ options ] class [ arguments ]
 ```      
 ![](https://images.velog.io/images/kwj1270/post/cb5ec97d-cb09-46fe-898d-ef2d3821ccbf/runtime.png)   
    
@@ -100,6 +97,12 @@ JVM을 통해 OS에 맞는 기계어(Machine code)로 변환한다.
 바이트코드는 말 그대로 `바이트 단위로 이루어진 코드`이다.     
 반면, **컴퓨터**는 `0`과`1`로만 이루어진 **`비트 단위의 코드만 해석 가능하다.`**     
 
+**런타임 옵션**     
+    
+|커맨드|예시|설명|   
+|-----|---|---|  
+
+    
 # 전체적인 과정   
      
 1. JVM은 OS로부터 프로그램이 필요로 하는 메모리를 할당받는다.         
