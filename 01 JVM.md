@@ -23,7 +23,7 @@
 * **메모리 관리**, **Garbage collection**을 수행한다.       
 * 스택기반의 가상 머신으로 LIFO 원칙으로 동작한다.            
 
-**Write Once Run Anywhere**
+**Write Once Run Anywhere**    
 <img width="802" alt="스크린샷 2021-01-04 오후 12 21 12" src="https://user-images.githubusercontent.com/50267433/103498244-6101ee00-4e87-11eb-91ef-f3af5c0606e6.png">  
      
 * 각 OS마다 0과 1로 이루어진 기계어를 해석하는 방법이 다르다.              
