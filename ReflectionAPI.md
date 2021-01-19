@@ -53,7 +53,15 @@ JDK 1.1부터는 개발자들도 **Reflection**을 통해서 클래스를 분석
 1. 로드타임 동적 로딩(load-time dynamic loading) 
 2. 런타임 동적 로딩(run-time dynamic loading)
 
-## 로드타임 동적 로딩(load-time dynamic loading)   
+## 로드타임 동적 로딩(load-time dynamic loading)     
+
+```java
+  public class HelloWorld {
+     public static void main(String[] args) {
+        System.out.println("안녕하세요!");
+     }
+  }
+```
 ## 런타임 동적 로딩(run-time dynamic loading)    
 
 
