@@ -69,22 +69,22 @@ JDK 1.1부터는 개발자들도 **Reflection**을 통해서 클래스를 분석
  $ java HelloWorld
 ```
 
-JVM이 시작되고, 부트스트랩 클래스로더가 생성된 후에, `Object` 클래스를 읽어온다.               
-이후, 클래스로더는 `HelloWorld` 클래스를 로딩하기 위해, `HelloWorld.class`를 읽는다.       
-이 과정에서 `CLASSPATH` 가 설정되어 있어야 `.class` 파일을 찾아 읽는다.        
-   
-`HelloWorld` 클래스를 로딩하는 과정에서 몇 개의 클래스가 필요하다. 
-바로, `java.lang.String`과 `java.lang.System`이다. 
-이 두 클래스는 `HelloWorld` 클래스를 읽어오는 과정에서, 즉 로드타임에 로딩된다. 
-이 처럼, 클래스를 로딩하는 과정에서 동적으로 클래스를 로딩하는 것을 로드타임 동적 로딩이라고 한다.
- 
+JVM이 시작되고, 부트스트랩 클래스로더가 생성된 후에, `Object` 클래스를 읽어온다.                  
+이후, 클래스로더는 `HelloWorld` 클래스를 로딩하기 위해, `HelloWorld.class`를 읽는다.         
+이 과정에서 `CLASSPATH` 가 설정되어 있어야 `.class` 파일을 찾아 읽는다.            
+        
+`HelloWorld` 클래스를 로딩하는 과정에서 몇 개의 클래스가 필요하다.      
+바로, `java.lang.String`과 `java.lang.System`이다.       
+이 두 클래스는 `HelloWorld` 클래스를 읽어오는 과정에서, 즉 로드타임에 로딩된다.      
+이 처럼, 클래스를 로딩하는 과정에서 동적으로 클래스를 로딩하는 것을 로드타임 동적 로딩이라고 한다.      
+    
 
 ## 런타임 동적 로딩(run-time dynamic loading)    
 
 
 
  
-  
+# 작성 중..  
 # 참고    
 [자바 동적로딩 이해](https://futurists.tistory.com/43)          
 [리플랙션과 동적 로딩](https://madplay.github.io/post/java-reflection)           
