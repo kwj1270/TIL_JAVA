@@ -47,7 +47,6 @@ JDK 1.1부터는 개발자들도 **Reflection**을 통해서 클래스를 분석
 3. **초기화 :** 슈퍼 클래스(Object) 및 정적(static) 필드(변수/메서드)를 초기화한다.         
 
 
-출처: https://futurists.tistory.com/43 [미래학자]
 
 
 
