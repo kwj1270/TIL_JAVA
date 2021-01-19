@@ -1,6 +1,12 @@
-리플랙션
-==========
-   
+# 들어가면서 
+
+[]()
+[]()
+[]()
+[]()
+[]()
+
+ 
 # 동적 로딩(Dynamic Loading)      
 자바 프로그램은 여러개의 클래스로 구성되어 있다.             
 자바는 프로그램 실행 시에 모든 클래스를 로딩하지 않고              
@@ -11,7 +17,7 @@
 그리고 '런타임'시에 모든 클래스 파일이 아닌 필요한 클래스만 JVM 메모리에 로딩한다.                          
 자바의 **클래스로더**가 이런 역할을 수행한다.                   
                       
-**클래스로더란? :** `.class` 바이트 코드를 읽어 들여 `객체`를 생성하는 역할을 담당한다.                     
+**클래스로더 :** `.class` 바이트 코드를 읽어 들여 `객체`를 생성하는 역할을 담당한다.                     
 즉, 클래스로더는 **클래스가 요청될 때 `클래스 정보`를 메모리로 로딩하는 역할**을 한다.                   
  
 ``` 
@@ -51,12 +57,16 @@ JDK 1.1부터는 개발자들도 **Reflection**을 통해서 클래스를 분석
 클래스에 정의된 필드, 메소드, 인터페이스들을 나타내는 데이터 구조를 준비하며,        
 그 클래스가 참조하는 다른 클래스를 로딩한다.             
 3. **초기화 :** 슈퍼 클래스(Object) 및 정적(static) 필드(변수/메서드)를 초기화한다.         
-
+   
+# 클래스 로딩 방식   
+     
 클래스를 로딩하는 방식에는 2가지가 있다.   
 1. 로드타임 동적 로딩(load-time dynamic loading) 
 2. 런타임 동적 로딩(run-time dynamic loading)
 
-## 로드타임 동적 로딩(load-time dynamic loading)     
+## 로드타임 동적 로딩
+> load-time dynamic loading   
+  
 
 ```java
   public class HelloWorld {
@@ -76,12 +86,42 @@ JVM이 시작되고, 부트스트랩 클래스로더가 생성된 후에, `Objec
 `HelloWorld` 클래스를 로딩하는 과정에서 몇 개의 클래스가 필요하다.      
 바로, `java.lang.String`과 `java.lang.System`이다.       
 이 두 클래스는 `HelloWorld` 클래스를 읽어오는 과정에서, 즉 로드타임에 로딩된다.      
-이 처럼, 클래스를 로딩하는 과정에서 동적으로 클래스를 로딩하는 것을 로드타임 동적 로딩이라고 한다.      
-    
+이 처럼, **로딩하는 과정에서 동적으로 클래스를 로딩**하는 것을 **로드타임 동적 로딩**이라고 한다.      
+       
 
-## 런타임 동적 로딩(run-time dynamic loading)    
+## 런타임 동적 로딩
+> run-time dynamic loading       
 
+```java
+class HelloWorld1 implements Runnable {
+    public void run() {
+        System.out.println("안녕하세요, 1");
+    }
+}
 
+class HelloWorld2 implements Runnable {
+    public void run() {
+        System.out.println("안녕하세요, 2");
+    }
+}
+  
+public class RuntimeLoading {
+    public static void main(String[] args) {
+        try {
+            if (args.length < 1) {
+                System.out.println("사용법: java RuntimeLoading [클래스 이름]");
+                System.exit(1);
+            }
+            Class klass = Class.forName(args[0]);
+            Object obj = klass.newInstance();
+            Runnable r = (Runnable) obj;
+            r.run();
+       } catch(Exception ex) {
+           ex.printStackTrace();
+        }
+    }
+}
+```
 
  
 # 작성 중..  
