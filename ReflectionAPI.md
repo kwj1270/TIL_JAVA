@@ -17,6 +17,9 @@
 ``` 
 클래스 로더는 classpath라는 환경 변수에 등록된 디렉토리에 있는 모든 클래스들을 먼저 JVM에 로딩한다. 
 이는, 자바의 런타임 라이브러리([JDK 설치 디렉토리]/jre/lib/rt.jar) 역시 예외가 아니다.     
+자바가 기본적으로 제공하는 클래스로더는 java.lang.ClassLoader를 통해서 표현된다. 
+JVM이 시작되면, 부트스트랩(bootstrap) 클래스로더를 생성하고, 
+그 다음에 가장 첫번째 클래스인 Object를 시스템에 읽어온다.
 JVM에 로딩된 클래스만이 JVM에서 객체로 사용할 수 있다.     
 클래스 로딩은 클래스를 로딩하는 시점 또는 실행 중간에도 할 수 있다.   
 ```
@@ -62,11 +65,19 @@ JDK 1.1부터는 개발자들도 **Reflection**을 통해서 클래스를 분석
      }
   }
 ```
-```bash
+```console
  $ java HelloWorld
 ```
 
-
+JVM이 시작되고, 부트스트랩 클래스로더가 생성된 후에, `Object` 클래스를 읽어온다.               
+이후, 클래스로더는 `HelloWorld` 클래스를 로딩하기 위해, `HelloWorld.class`를 읽는다.       
+이 과정에서 `CLASSPATH` 가 설정되어 있어야 `.class` 파일을 찾아 읽는다.        
+   
+`HelloWorld` 클래스를 로딩하는 과정에서 몇 개의 클래스가 필요하다. 
+바로, `java.lang.String`과 `java.lang.System`이다. 
+이 두 클래스는 `HelloWorld` 클래스를 읽어오는 과정에서, 즉 로드타임에 로딩된다. 
+이 처럼, 클래스를 로딩하는 과정에서 동적으로 클래스를 로딩하는 것을 로드타임 동적 로딩이라고 한다.
+ 
 
 ## 런타임 동적 로딩(run-time dynamic loading)    
 
