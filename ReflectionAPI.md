@@ -48,8 +48,18 @@ JDK 1.1부터는 개발자들도 **Reflection**을 통해서 클래스를 분석
 클래스에 정의된 필드, 메소드, 인터페이스들을 나타내는 데이터 구조를 준비하며,        
 그 클래스가 참조하는 다른 클래스를 로딩한다.             
 3. **초기화 :** 슈퍼 클래스(Object) 및 정적(static) 필드(변수/메서드)를 초기화한다.         
-    
-     
+          
+```java
+public class Hello { 
+    public static void main(String[] args) { 
+        System.out.println("Hello, world!"); 
+    } 
+}
+```
+Hello 클래스를 로드할 때         
+이 클래스가 참조하고 있는 Object, String, System 클래스가 아직 로드되지 않았으므로       
+Hello 클래스를 로드하는 일을 중단하고 우선 이 클래스들을 로딩한다.            
+이처럼 한 클래스의 로드 타임에 필요한 다른 클래스들을 동적 로딩하는 것을 로드타임 동적 로딩이라고 한다.      
 
 
 
