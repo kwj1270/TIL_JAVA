@@ -211,7 +211,25 @@ public class CoronaThreadInterruptTest {
     1. waiting timed waiting 풀에서 시간이 지나도 호출 안하면 runnable로 다시 대기상태로 만든다.     
 5. `yield()`를 사용하면 러너블 형태로 되돌리는 메서드(순서 양보)    
      
+## this,yield()   
+Thread.yield(), static method  
+
+Thread의 Job 수행 중 지금 당장 JOB 수행할 필요가 없을 경우 호출하여,  
+Runnable 상태에 있는 다른 Thread 들에게 수행을 양보한다.  
   
+단, 이 경우 wait상태로 가지 않고,      
+Runnable 상태로 이동하여 언제든 다시 경쟁을 이기고 Running 상태가 되면,     
+yield() 호출 이후 코드를 이어서 수행한다.    
+
+# 동기화 - synchronuzed   
+여러 Thread 들이 공유하는 자원에 대한 관리는 필수입니다.    
+
+어떤 Thread가 자원에 대한 중요한 job을 실행할 때,    
+그 job이 완료되기 전에 다른 Thread가 접근해서 다른 Job을 실행하게 되면 심각한 오류가 발생할 수 있다.   
+    
+계좌 출금 및 잔고 예시를 살펴보자   
+
+
   
 
 
