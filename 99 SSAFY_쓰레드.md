@@ -143,7 +143,31 @@ public class CoronaThread extends Thread {
 여기서 코로나 스레드는 sleep(2000)을 하기에 다시 메인스레드로 흐름이 넘어가야 하지만.    
 메인에서 코로나스레드.join() 했기에 메인 스레드는 코로나 스레드가 끝날 때까지 기다린다.   
 즉, `메인 -> 코로나 스레드 -> 메인이 된다.`   
+   
+## interuupt()   
+Thread 객체는 statrt()가 호출되면 바로 실행되지 않습니다.      
+모든 Thread는 기본적으로 서로 경쟁입니다.     
+전체 Thread는 실행 -> 종료까지 다양한 상태로 존재하게 되고,     
+JVM은 이 상태를 이용해서 전체 Thread의 실행을 제어한다.        
+다음 Page에 전체 상태에 대한 그림을 함께 봅시다.       
+    
+대기 Pool에 있는 특정 Thread 객체를 방해하여 다시 Runnable 상태로 이동시킨다.     
+interrupt()를 통해 가능한데, 특정 Thread 객체의 interrupt()를 호출하면 된다.    
 
+
+CoronaThreadClass를 수정하고, CoronaThreadInterruptTestClass를 새로 작성해서 테스트해보자     
+   
+### 스레드의 상태  
+1. new : new Thread() 
+2. runnable : 아직 실행 대기중인 상태 
+    1. 등록된것 + 스레드 스케줄러로 인해 실행에 있다가 다시 대기되는 객체가 대기되는 공간   
+3. Ruinning : 현재 실행중,  
+4. waiting timed waiting  풀: 러닝중 sleep()/join(),wait(),I/O블록킹 발생하면 실행대기가 아닌, 대기풀로 간다.  
+    1. waiting timed waiting 풀에서 시간이 지나도 호출 안하면 runnable로 다시 대기상태로 만든다.     
+5. `yield()`를 사용하면 러너블 형태로 되돌리는 메서드(순서 양보)    
+     
+  
+  
 
 
 
