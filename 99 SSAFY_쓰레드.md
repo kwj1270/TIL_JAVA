@@ -71,6 +71,81 @@ public class CoronaThreadTest {
 쓰레드안에서 쓰레드를 또 실행할 수 있다.(단, 공유자원(변수/자료구조) 등에 대한 각별한 주의가 필요하다       
 
 
+## sleep()  
+Thread.sleep() , static method  
+  
+호출하면 해당 영역의 쓰레드의 실행을 중지시키는 역할을 한다.       
+1/1000초 동안 중지이므로 1000을 넣으면 1초 쉰다.     
+그리고 이 상황에 다른 스레드에게 실행 흐름이 넘어갈 수 있다.   
+
+## join()   
+엎어 탄다. (스레드가 또다른 스레드에 엎어타서 밑에 있는 내용들을 해먹는 것)    
+  
+Thread 객체는 특정 Thread 객체가 종료될 때까지     
+수행하던 Job을 멈추고 특정 Thread 객체가 종료되면 다시 Job을 수행할 수 있다.     
+    
+만약, A Thread 객체 a의 종료시까지 대기하려면 (a가 종료되고 작업하려면)     
+자신 Thrad의 실행 코드에 a.join() 형태로 메서드를 호출한다.   
+
+main()을 수행하는 MatnThread가 다른 스레드 종료 후,  
+계속 Job을 수행하는 코드를 테스트하자  
+
+```java
+package lab.ssafy.corona.app;
+
+import lab.ssafy.corona.virus.CoronaThread;
+
+public class CoronaThreadTest {
+
+	public static void main(String[] args) {
+		
+		System.out.println("Main Thread Start!!");
+		
+		CoronaThread thread = new CoronaThread(2020);
+		thread.start();
+		
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Main Thread End!!");
+	}
+}
+
+```
+
+```java
+package lab.ssafy.corona.virus;
+
+public class CoronaThread extends Thread {
+	int num;
+	
+	public CoronaThread(int num) {
+		this.num = num;
+	}
+	
+	@Override
+	public void run() {
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(num);
+	}
+}
+```
+메인 -> 코로나 스레드  
+여기서 코로나 스레드는 sleep(2000)을 하기에 다시 메인스레드로 흐름이 넘어가야 하지만.    
+메인에서 코로나스레드.join() 했기에 메인 스레드는 코로나 스레드가 끝날 때까지 기다린다.   
+즉, `메인 -> 코로나 스레드 -> 메인이 된다.`   
+
+
+
 
 
 
