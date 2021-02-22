@@ -16,7 +16,6 @@ Concurrent 는 어떤 Job이 여러개 동시에 처리된다는 개념입니다
 멀티 스레드 : 한 프로세스에서 여러 개의 쓰레드가 동시에 수행 
 
 ## 쓰레드 사용하기  
-쓰레드의 작업 동작인 Runnable 구현체를 만듬 
 ```java
 package lab.ssafy.corona.virus;
 
@@ -38,6 +37,8 @@ public class CoronaRunnable implements Runnable {
 	}
 }
 ```
+쓰레드의 작업 동작인 Runnable 구현체를 만듬   
+  
 ```java
 package lab.ssafy.corona.app;
 
@@ -57,4 +58,19 @@ public class CoronaThreadTest {
 }
 ```
 쓰레드 생성자 인자로 Runnable을 넣어준다.   
+
+쓰레드는 순서가 없으므로 멀티쓰레드 동작시 뒤섞인다.   
+
+## 실습2
+   
+메인쓰레드는 하나의 쓰레드이다.      
+그렇기에 다른 쓰레드를 기다리지 않는다.     
+   
+쓰레드 객체에서 start() 2번사용하면? 오류가 난다.       
+      
+쓰레드안에서 쓰레드를 또 실행할 수 있다.(단, 공유자원(변수/자료구조) 등에 대한 각별한 주의가 필요하다       
+
+
+
+
 
