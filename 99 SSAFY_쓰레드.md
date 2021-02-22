@@ -153,10 +153,55 @@ JVM은 이 상태를 이용해서 전체 Thread의 실행을 제어한다.
     
 대기 Pool에 있는 특정 Thread 객체를 방해하여 다시 Runnable 상태로 이동시킨다.     
 interrupt()를 통해 가능한데, 특정 Thread 객체의 interrupt()를 호출하면 된다.    
-
+개인적인 의견으로 스레드의 실행을 멈추는 느낌이다.  
 
 CoronaThreadClass를 수정하고, CoronaThreadInterruptTestClass를 새로 작성해서 테스트해보자     
-   
+
+```java
+public class CoronaThread extends Thread {
+	int num;
+	
+	public CoronaThread(int num) {
+		this.num = num;
+	}
+	
+	@Override
+	public void run() {
+		try{
+			System.out.println("thread try start"); 
+			Thread.sleep(5000);  
+			System.out.println("thread try end");  
+		}catch(InterruptedException e){
+			System.out.println("thread interrupted raised"); 
+		}
+		System.out.println(num);
+	}
+}
+```
+```java
+
+import lab.ssafy.corona.virus.CoronaThread;
+
+public class CoronaThreadInterruptTest {
+
+	public static void main(String[] args) {
+		CoronaThread t = new CoronaThread(2020);
+		t.start();
+		t.interrupt();
+		
+		try {
+			Thread.sleep(3000);
+		}catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Main Thread End!!");
+	}
+}
+```
+
+
+
 ### 스레드의 상태  
 1. new : new Thread() 
 2. runnable : 아직 실행 대기중인 상태 
