@@ -570,11 +570,67 @@ public class Test {
 가령 `Generics`에서 특정한 레퍼런스 타입을 지정하지 않았을 경우 `<T>`를 사용한다.     
 하지만, 여기서 이 `Generics`또한 `상한/하한 제한`을 해야하는 경우가 있다.       
 이럴 때 `WildCard`를 사용하면 이전에는 사용하지 못했던 `상한/하한 제한`을 할 수 있다.   
-   
 
+**상한 제한**
+```java
+public class Test {
 
+    private static <T> List<Integer> convertTokenSizeList(List<? extends T> list) {
+        List<Integer> result = new ArrayList<>();
+        for (T t : list) {
+            int tokenSize = t.split(" ").length;
+            result.add(tokenSize);
+        }
+        return result;
+    }
 
+    public static void main(String[] args) {
+        List<String> myList = new ArrayList<>();
+        myList.add("자 이제 시작이야 내 꿈은~");
+        myList.add("내 꿈을 위한 여행 피카츄 (피카츄)");
+        myList.add("걱정 따윈 없어 (없어)");
+        myList.add("내 친구와 함께니까");
 
+        List<Integer> tokenSizes = convertTokenSizeList(myList);
+        tokenSizes.stream().forEach(System.out::println);
+    }
+
+}
+```   
+제어자와 반환형 사이에 존재하는 `Generics 매개변수 타입`에 `extends`를 사용하지 않아도,   
+와일드 카드를 통해 매개변수에서 `Generics 매개변수 타입`의 상한 제한을 할 수 있다.       
+       
+**하한 제한**
+```java
+public class Test {
+
+    private static <T extends String> List<Integer> convertTokenSizeList(List<? super T> list) {
+        List<Integer> result = new ArrayList<>();
+        for (T t : list) {
+            int tokenSize = t.split(" ").length;
+            result.add(tokenSize);
+        }
+        return result;
+    }
+    
+    public static void main(String[] args) {
+        List<String> myList = new ArrayList<>();
+        myList.add("자 이제 시작이야 내 꿈은~");
+        myList.add("내 꿈을 위한 여행 피카츄 (피카츄)");
+        myList.add("걱정 따윈 없어 (없어)");
+        myList.add("내 친구와 함께니까");
+
+        List<Integer> tokenSizes = convertTokenSizeList(myList);
+        tokenSizes.stream().forEach(System.out::println);
+    }
+
+}
+```
+`Generics 매개변수 타입`을 기준으로 불특정 클래스에 대한 `하한 제한`을 할 수 있디.   
+위 코드에서 조금 장난을 했는데,      
+`Generics 매개변수 타입`로는 하한제한      
+`WildCard`로는 상한제한을 두어 특정 클래스만 사용가능하도록 제한을 걸었다.        
+물론, 이같은 경우는 단순히 `T`만 사용해도 되기에, 사용할 수 있다는 점만 알아두자       
 
 
 # Type Erasure    
