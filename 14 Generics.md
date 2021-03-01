@@ -342,8 +342,8 @@ String 클래스의 메서드를 사용하고자 한다면 String 타입으로 �
      
 **추가로**         
 `<T extends 클래스>`는 특정 클래스의 하위 클래스 타입을 허용한다고 했다.          
-그렇기에 아래와 같은 코드를 작성할 수 있다.   
-(로직은 신경쓰지 않고, 단순히 가능하다만을 표현하는 코드를 짰습니다.)  
+그렇기에 아래와 같은 코드를 작성할 수 있다.     
+(로직은 신경쓰지 않고, 단순히 '가능하다'만을 표현하는 코드를 짰습니다.)    
 
 ```java
 class Some {
@@ -388,8 +388,8 @@ public class Test {
     }
 
 }
-/// 다른 케이스 
 
+/// 다른 케이스 - 일반 T로도 사용가능하다
 class Test2 {
 
     private static <T extends Some> List<Integer> convertTokenSizeList(T list) {
@@ -405,39 +405,172 @@ class Test2 {
 
 }
 ```   
-여기서 눈 여겨볼 점은 `<T extends Some>`를 통해         
-`Some`의 하위 클래스인 `SSome` 타입을 가진 List를 가지고 올 수 있었다.    
-물론, `Test2`처럼 리스트 형태가 아닌 그냥 사용할 수는 있지만,      
-말하고자 하는 것은 사실, `List<Some>`과 `List<SSome>`은 아무런 관계가 없다.      
+여기서 눈 여겨볼 점은 `<T extends Some>`를 통해             
+`Some`의 하위 클래스인 `SSome` 타입을 가진 List를 가지고 올 수 있었다.       
         
-**Generics에 들어간 타입의 다형성 관계**   
-앞서 말했듯이 `List<Some>`과 `List<SSome>`은 아무런 관계가 없다.   
-그렇기에 같이 값을 할당을 하고자 한다면 컴파일 에러가 발생한다.    
-   
+`Generics`에서 `<>`에 들어간 클래스들간의 상속 관계는 의미가 없다.      
+즉, `List<Some>`과 `List<SSome>`은 관련이 있을 것 같지만   
+아무런 관계가 없기에 아래와 같은 코드는 에러를 발생시킨다.         
+    
 ```java
         List<Some> someList = myList;           // 컴파일 에러    
 ```
 <img width="1440" alt="바운디드 타입" src="https://user-images.githubusercontent.com/50267433/109463314-1f1caf00-7aa8-11eb-8c3c-15011a9b88ff.png">   
   
 그렇다면 어떻게 위와 같은 작업이 가능했던 것일까?   
-              
-그것은 당연하게도 앞서 본 **바운디드 타입이였기 때문에 가능한 것이다.**    
-`<T extends Some>`으로 인해 바운디드 타입으로 선언된 `T`가 `Some`의 하위 클래스로 선택된다.  
-쉽게 설명하면, `T` 자체가 `SSome` 으로 변환되어 작업을 처리했다고 생각을 하면 된다.   
-   
+       
+여기서 많이 헷갈리는 것이 **상속관계로 값이 들어온다고 생각하는데 절대 아니다**   
+답은 앞서 본 **바운디드 타입으로 인해 T 자체의 값이 변동되었기 때문에 가능한 것이다.**           
+`<T extends Some>`으로 인해 바운디드 타입으로 선언된 `T`가 `Some`의 하위 클래스로 선택된다.     
+즉, `T` 자체가 `SSome` 으로 변환되어 작업을 처리했기 때문에 인자값으로 `myList`를 넣을 수 있던 것이다.
+        
 ```java   
         List<SSome> someList = myList;           // T는 SSome으로 변환되어 작업
 ```
 
-# 와일드 카드  
+# WildCard  
 ```java
 <?>
 ```   
-와일드 카드는 제네릭을 보조해주는 또 하나의 제네릭이라 생각할 수 있다.      
-와일드 카드는 기본적으로 `?`라는 문자로 표시하며 `Object`타입이라고 생각해도 된다.   
-즉, 어떤 레퍼런스타입이든 될 수 있다는 뜻이다.   
+`WildCard`는 제네릭을 보조해주는 또 하나의 제네릭이라 생각할 수 있다.          
+`WildCard`는 기본적으로 `?`로 표시하며 `어떤 레퍼런스 타입이든 될 수 있다`라는 뜻을 가졌다.   
+            
+`WildCard`는 제네릭과 비슷하기에 제네릭 대신으로 사용할 수 있다.       
+아니, 정확히 표현하자면 `Generics`보다 더 자주 사용되는 `Generics`의 기능이다.         
 
+```java
+public static <T> void peekBox(Box<T> box) {
+    System.out.println(box);
+} // 제네릭 타입 메서드의 정의 
 
+public static <T extends SomeClass> void peekBox(Box<T> box) {
+    System.out.println(box);
+} // 제네릭 바운디드 타입 메서드의 정의 
+```
+`Generics` 메서드는 위와 같이 제어자와 반환형 사이에 `Generics 매개변수 타입`을 넣어줘야 한다.     
+
+```java
+public static void peekBox(Box<?> box) {
+    System.out.println(box);
+} // 와일드 타입 메서드의 정의 
+
+public static void peekBox(Box<? extends SomeClass> box) {
+    System.out.println(box);
+} // 와일드 바운디드 타입 메서드의 정의 
+```
+`WildCard` 메서드는 `Generics`와 다르게 파라미터에만 `<?>` 을 넣어주면 된다.     
+이로인해, `Generics`보다 더욱 깔끔하고 보기좋은 코드를 구현할 수 있게 되었다.   
+그렇기에 이러한 장점 때문에 개발자들은 와일드 카드를 사용하는 것을 더 선호한다.  
+
+```java
+private static List<Integer> convertTokenSizeList(? list) {
+    List<Integer> result = new ArrayList<>();
+    result.add(list.split(" ").length);
+    return result;
+}
+
+private static List<Integer> convertTokenSizeList(<?> list) {
+    List<Integer> result = new ArrayList<>();
+    result.add(list.split(" ").length);
+    return result;
+}
+
+private static List<Integer> convertTokenSizeList(<? extends Some> list) {
+    List<Integer> result = new ArrayList<>();
+    result.add(list.split(" ").length);
+    return result;
+}
+```
+대신, 이와 같이 와일드 카드 단독으로 자료형이 결정되는 방법에는 사용할 수 없다.       
+
+## WildCard의 바운디드 타입
+`WildCard`의 바운디드 타입은 제네릭과 비슷하다.     
+하지만, 몇가지 다른 사항이 있고 이는 와일드 카드의 가치를 높여준다.     
+    
+* 상한 제한이 가능하다.          
+* **하한 제한이 가능하다.        
+* **대상 클래스로 `Generics`를 사용할 수 있다.**    
+    
+## 상한 제한 
+`WildCard`의 상한 제한은 `Generics`의 상한 제한과 같은 기능을 수행한다.       
+단, `T`라는 구문이 빠졌기에 이 부분은 직접 타입을 선언해줘야한다.       
+들어오는 모든 값을 호환해주어야 하기 때문에 `<? extends 클래스>`에 정의된  
+클래스를 기반으로 코드를 기술해주는 것이 좋다.  
+
+```java
+public class Test {
+
+    private static List<Integer> convertTokenSizeList(List<? extends String> list) {
+        List<Integer> result = new ArrayList<>();
+        for (String t : list) {                       // 명시적으로 기술해줘야 한다.   
+            int tokenSize = t.split(" ").length;
+            result.add(tokenSize);
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        List<String> myList = new ArrayList<>();
+        myList.add("자 이제 시작이야 내 꿈은~");
+        myList.add("내 꿈을 위한 여행 피카츄 (피카츄)");
+        myList.add("걱정 따윈 없어 (없어)");
+        myList.add("내 친구와 함께니까");
+
+        List<Integer> tokenSizes = convertTokenSizeList(myList);
+        tokenSizes.stream().forEach(System.out::println);
+    }
+
+}
+```
+
+## 하한 제한      
+`WildCard`는 `Generics`와 다르게 하한 제한이라는 것이 존재한다.        
+즉, `<? super class>`에서 특정 클래스보다 상위 클래스의 타입만을 허용한다는 뜻이다.   
+그렇기에 기존에 존재하는 코드들도 `WildCard`에 맞추려면 주로, `Object`로 선언 후 사용해야한다.       
+
+```java
+public class Test {
+
+    private static List<Integer> convertTokenSizeList(List<? super String> list) {
+        List<Integer> result = new ArrayList<>();
+        for (Object t : list) {
+            int tokenSize = t.hashCode()%Integer.MAX_VALUE;
+            result.add(tokenSize);
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        List<String> myList = new ArrayList<>();
+        myList.add("자 이제 시작이야 내 꿈은~");
+        myList.add("내 꿈을 위한 여행 피카츄 (피카츄)");
+        myList.add("걱정 따윈 없어 (없어)");
+        myList.add("내 친구와 함께니까");
+
+        List<Integer> tokenSizes = convertTokenSizeList(myList);
+        tokenSizes.stream().forEach(System.out::println);
+    }
+
+}
+```
+위 코드르 보면, `하한 제한`을 사용하기에 `Object`의 메서드만 사용하고 있다.          
+**그렇다면 하한제한을 사용하는 목적은 무엇일까? 🧐**             
+`하한 제한`의 목적은 **불필요한 요소의 사용 및 호출을 방지하는 것**이다.       
+
+현재 코드가 `Object`관련 메서드나 상위 클래스에 존재하는 요소들만 사용한다 가정한다.  
+그렇다면 우리는 코드상에서 불필요한 `하위 인스턴스`의 요소나 메서드를 사용할 일이 없다는 뜻이다.   
+하지만, `하위 인스턴스`의 요소나 메서드를 사용해도 컴파일 에러는 발생하지 않는다.     
+
+이와 같은 문제점으로 보다 코드의 안정성을 위해서 하한제한을 만들어 놓은 것이다.   
+
+## `<? extends T> 와 <? super T>`   
+앞서 `WildCard`는 **제네릭을 보조해주는 또 하나의 제네릭**이라고 소개한 적이 있다.                 
+즉, 제네릭을 보조해주기 위해 `WildCard`와 `Generics`는 동시에 사용할 수 있다.     
+     
+가령 `Generics`에서 특정한 레퍼런스 타입을 지정하지 않았을 경우 `<T>`를 사용한다.     
+하지만, 여기서 이 `Generics`또한 `상한/하한 제한`을 해야하는 경우가 있다.       
+이럴 때 `WildCard`를 사용하면 이전에는 사용하지 못했던 `상한/하한 제한`을 할 수 있다.   
+   
 
 
 
