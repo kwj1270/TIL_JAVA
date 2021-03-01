@@ -2,9 +2,9 @@
 > 목표 : 자바의 제네릭에 대해 학습하세요.    
    
 [1. Generics](#generics)    
-[2. 제네릭 사용법](#제네릭-사용법)         
+[2. Generics 사용법](#generics-사용법)         
 [3. WildCard](#wildcard)       
-[4. Erasure](#erasure)        
+[4. Type Erasure](#type-erasure)        
         
 # Generics
 > 레퍼런스 타입을 담을 수 있는 마법의 요술 상자     
