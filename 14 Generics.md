@@ -339,9 +339,104 @@ String 클래스의 메서드를 사용하고자 한다면 String 타입으로 �
 1. 타입 안정성을 제공한다.         
     * `ClassCastException`과 같은 `UncheckedException`을 보장받을 수 있다.    
 2. 타입체크와 형변환을 생략할 수 있으므로 코드가 간결해진다.   
-       
+     
+**추가로**         
+`<T extends 클래스>`는 특정 클래스의 하위 클래스 타입을 허용한다고 했다.          
+그렇기에 아래와 같은 코드를 작성할 수 있다.   
+(로직은 신경쓰지 않고, 단순히 가능하다만을 표현하는 코드를 짰습니다.)  
+
+```java
+class Some {
+    public int length;
+    
+    public Some(String str){
+        
+    }
+    
+    public Some split(String str){
+        return this;
+    }
+    
+}
+
+class SSome extends Some{
+    public SSome(String str) {
+        super(str);
+    }
+}
+
+public class Test {
+
+    private static <T extends Some> List<Integer> convertTokenSizeList(List<T> list) {
+        List<Integer> result = new ArrayList<>();
+        for (T t : list) {
+            int tokenSize = t.split(" ").length;
+            result.add(tokenSize);
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        List<SSome> myList = new ArrayList<>();
+        myList.add(new SSome("자 이제 시작이야 내 꿈은~"));
+        myList.add(new SSome("내 꿈을 위한 여행 피카츄 (피카츄)"));
+        myList.add(new SSome("걱정 따윈 없어 (없어)"));
+        myList.add(new SSome("내 친구와 함께니까"));
+
+        List<Integer> tokenSizes = convertTokenSizeList(myList);
+        tokenSizes.stream().forEach(System.out::println);
+    }
+
+}
+/// 다른 케이스 
+
+class Test2 {
+
+    private static <T extends Some> List<Integer> convertTokenSizeList(T list) {
+        List<Integer> result = new ArrayList<>();
+        result.add(list.split(" ").length);
+        return result;
+    }
+
+    public static void main(String[] args) {
+        List<Integer> tokenSizes = convertTokenSizeList(new SSome("자 이제 시작이야 내 꿈은~"));
+        tokenSizes.stream().forEach(System.out::println);
+    }
+
+}
+```   
+여기서 눈 여겨볼 점은 `<T extends Some>`를 통해         
+`Some`의 하위 클래스인 `SSome` 타입을 가진 List를 가지고 올 수 있었다.    
+물론, `Test2`처럼 리스트 형태가 아닌 그냥 사용할 수는 있지만,      
+말하고자 하는 것은 사실, `List<Some>`과 `List<SSome>`은 아무런 관계가 없다.      
+
+```java
+        List<Some> someList = myList;           // 컴파일 에러    
+```
+<img width="1440" alt="바운디드 타입" src="https://user-images.githubusercontent.com/50267433/109463314-1f1caf00-7aa8-11eb-8c3c-15011a9b88ff.png">   
+  
+그렇기에 위와 같이 할당을 하고자 한다면 컴파일 에러가 발생한다.  
+그렇다면 어떻게 위와 같은 작업이 가능했던 것일까?   
+           
+그것은 당연하게도 앞서 본 **바운디드 타입이였기 때문에 가능한 것이다.**        
+`T extends Some`으로 인해 바운디드 타입으로 선언된 `T` 자체가       
+`Some`의 하위 클래스인 `SSome` 으로 변환되었다고 가정해도 된다.   
+
+
+
 # 와일드 카드  
-와일드 카드는 제네릭을 보조해주는 또 하나의 제네릭이라 생각할 수 있다.    
+```java
+<?>
+```   
+와일드 카드는 제네릭을 보조해주는 또 하나의 제네릭이라 생각할 수 있다.      
+와일드 카드는 기본적으로 `?`라는 문자로 표시하며 `Object`타입이라고 생각해도 된다.   
+즉, 어떤 레퍼런스타입이든 될 수 있다는 뜻이다.   
+
+
+
+
+
+
 
 
 # Type Erasure    
