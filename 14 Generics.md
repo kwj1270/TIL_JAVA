@@ -86,20 +86,15 @@ class Name2 <L, R> {
 * V : Value  
 
 ## Generics 메서드   
-```java
-class Name <T> {
-    
-    private T t;
-     
-    public Name(T t){
-        this.t = t;
-    }
-    
-}
-```
-클래스 레벨에서 `Generics 타입 매개변수`를 선언하고,   
-메서드에서 동일한 `Generics 타입 매개변수`를 사용한다면 따로 기술하지 않아도 된다.    
 
+```java
+[AccessModifier] [Modifier] <T> [ReturnType] [MethodName](Parameter p1...) {}
+```    
+`Generics`는 클래스 레벨 뿐만 아니라, 메서드 레벨에서도 개별적으로 선언할 수 있다.         
+메서드 레벨에서의 `Generics`선언은 `Modifier`와 `ReturnType`의 사이로     
+표현하자면 `Modifier |여기| ReturnType` 형태를 가지고 있다.      
+
+**Generics 메서드 예시**
 ```java
 class Name<T> {
 
@@ -123,7 +118,26 @@ class Name2 {
 ```   
 하지만, 다른 타입의 `Generics 타입 매개변수`를 사용하고자 하거나    
 클래스 레벨이 아닌 메서드 레벨에서만 `Generics`를 사용하고자 한다면        
-메서드에 `Generics 타입 매개변수`를 기술하여 사용할 수 있다.         
+메서드에 `Generics 타입 매개변수`를 기술하여 사용할 수 있다.   
+
+**클래스 레벨에서의 Generics 메서드**
+```java
+class Name <T> {
+    
+    private T t;
+     
+    public Name(T t){         // 클래스 레벨에 이미 선언되었기에 <T> 가 생략되었다.
+        this.t = t;
+    }
+    
+}
+```
+클래스 레벨에서 `Generics 타입 매개변수`를 이미 선언했다먄,   
+메서드에서는 따로 `Generics 타입 매개변수`를 선언해주지 않아도 된다.   
+단, 이는 클래스 레벨과 동일한 `Generics 타입 매개변수`를 사용한다고 가정하에 말하는 것이고  
+만약, 클래스 레벨과 다른 `Generics 타입 매개변수`를 사용하고 싶다면 따로 기술해주면 된다.  
+
+      
   
 ## 원시 타입 자료형     
 `Generics`을 이용하기에 앞서 한 가지 제약사항이 있다.        
