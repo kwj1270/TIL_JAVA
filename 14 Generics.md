@@ -41,15 +41,6 @@ Erasure
     * `ClassCastException`과 같은 `UncheckedException`을 보장받을 수 있다.    
 2. 타입체크와 형변환을 생략할 수 있으므로 코드가 간결해진다.      
       
-## 타입 안정성   
-```java 
-
-```
-  
-## 타입 체크 및 형변환
-```java 
-
-```
   
 # Generics 사용법       
 ## Generics 클래스 선언   
@@ -159,12 +150,8 @@ class Sample {
 그리고 **오토 박싱/언박싱 작업을 통해 손쉽게 사용할 수 있다.**       
       
 ## Generics 바운디드 타입
-`바운디드 타입`은 `Generics 타입 매개변수`의 대상이 **지정된 클래스의 하위로 제한한다는 뜻이지만,**   
-필자의 관점으로는 조금 다르게 생각하여 **지정된 클래스의 하위도 사용가능하게 해준다**라고 생각한다.  
+`바운디드 타입`은 `Generics 타입 매개변수`의 대상이 **지정된 클래스의 하위로 제한한다는 뜻이다.**        
    
-`Generics 타입 매개변수`에 지정된 타입들의 상속 관계는 `Generics`에서 유효하지 않다.    
-이게 무슨말이냐면, Parent 클래스와 이를 상속받는 Child 자식클래스가 있다고 가정한다.    
-
 ```java
 public class Test {
 
@@ -189,6 +176,46 @@ public class Test {
     }
 }
 ```
+위 코드는 문제없이 돌아가는 정상적인 코드이지만 몇가지 불편한 점이 있다.       
+바로 `((String) t).split(" ").length;`을 통해 `String`으로 형변환을 시키고 있다.    
+그렇다면 만약 **형변환을 시킬 수 없는 데이터 타입이 들어온다면 어떻게 될까?**   
+
+```java
+package me.kwj1270.javaapi.test.domain;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Test {
+
+    private static <T> List<Integer> convertTokenSizeList(List<T> list) {
+        List<Integer> result = new ArrayList<>();
+        for (T t : list) {
+            int tokenSize = ((String) t).split(" ").length;
+            result.add(tokenSize);
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        List<Integer> myList = new ArrayList<>();
+        myList.add(1);
+        myList.add(2);
+        myList.add(3);
+        myList.add(4);
+
+        List<Integer> tokenSizes = convertTokenSizeList(myList);
+        tokenSizes.stream().forEach(System.out::println);
+    }
+}
+```
+`generic`는 컴파일 타임에서 코드의 적합성을 판단해 컴파일 에러를 발생시킨다.      
+위 코드는 컴파일 에러가 발생하지 않는다. 
+그렇다면 올바른 코드 사용 및 `generics` 사용이라고 말할 수 있을 까?  
+    
+아니다. 위 코드의 결과는 아래와 같다.     
+
+
 
 
 
