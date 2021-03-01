@@ -37,7 +37,7 @@ Erasure
 이를 확인하고 실제 코드를 살펴보면서 정리를 해보고자 한다.              
           
 **Generics의 장점**          
-1. 타입 안정성을 제공한다         
+1. 타입 안정성을 제공한다.         
     * `ClassCastException`과 같은 `UncheckedException`을 보장받을 수 있다.    
 2. 타입체크와 형변환을 생략할 수 있으므로 코드가 간결해진다.      
       
@@ -249,15 +249,87 @@ public class Test {
 
 언뜻보면, 사용의 이유를 잘 모를 수 있지만    
 바운디드 타입을 사용해서 얻을 수 있는 장점은 많다.  
+        
+1. 타입이 특정 클래스 및 그 하위 클래스이므로 확정된 요소들을 사용할 수 있다.      
+    * 보다 정확히 말하면, 불필요한 타입 캐스팅을 하지 않아도 된다는 것이다.         
+2. 타입이 특정 클래스 및 그 하위 클래스이므로 이에 맞는 컴파일 에러를 발생시킬 수 있다.
+     
+```java
+package me.kwj1270.javaapi.test.domain;
 
-1. 타입이 특정 클래스 및 그 하위 클래스이므로 확정된 요소들을 사용할 수 있다.  
-2. 
+import java.util.ArrayList;
+import java.util.List;
 
+public class Test {
 
+    private static <T extends String> List<Integer> convertTokenSizeList(List<T> list) {
+        List<Integer> result = new ArrayList<>();
+        for (T t : list) {
+            int tokenSize = ((String) t).split(" ").length;
+            result.add(tokenSize);
+        }
+        return result;
+    }
 
-`generics`는 컴파일 타임에서 코드의 적합성을 판단해 컴파일 에러를 발생시킨다.      어 
-`generics`는 컴파일 타임에서 코드의 적합성을 판단해 컴파일 에러를 발생시킨다.      
+    public static void main(String[] args) {
+        List<Integer> myList = new ArrayList<>();
+        myList.add(1);
+        myList.add(2);
+        myList.add(3);
+        myList.add(4);
 
+        List<Integer> tokenSizes = convertTokenSizeList(myList);  // 컴파일 에러 발생 
+        tokenSizes.stream().forEach(System.out::println);
+    }
+}
+```
+<img width="1440" alt="PresentCompileError" src="https://user-images.githubusercontent.com/50267433/109458460-29d34600-7aa0-11eb-8aa8-e9041433e9f5.png">
+         
+메서드의 선언부에 존재하는 `Generics`를 `<T extends String>`로 바꾸었다.         
+그 결과 이전에, 볼 수 없었던 컴파일 에러가 발생한 것을 알 수 있다.          
+앞서 말했듯이, `Integer`는 `String`의 하위 클래스가 아니므로        
+인자로 값을 넘기는 단계에서 컴파일 에러를 발생시키는 것이다.          
+        
+바운디드 타입으로 인해,    
+`Generics`의 장점인 컴파일 단계에서 에러 발생을 제대로 실현시킬 수 있게 되었으며  
+이로 인해 `타입 안정성을 제공한다.`는 장점을 유지할 수 있게 되었다.    
+    
+```java
+package me.kwj1270.javaapi.test.domain;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Test {
+
+    private static <T extends String> List<Integer> convertTokenSizeList(List<T> list) {
+        List<Integer> result = new ArrayList<>();
+        for (T t : list) {
+            int tokenSize = t.split(" ").length;
+            result.add(tokenSize);
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        List<String> myList = new ArrayList<>();
+        myList.add("자 이제 시작이야 내 꿈은~");
+        myList.add("내 꿈을 위한 여행 피카츄 (피카츄)");
+        myList.add("걱정 따윈 없어 (없어)");
+        myList.add("내 친구와 함께니까");
+
+        List<Integer> tokenSizes = convertTokenSizeList(myList);
+        tokenSizes.stream().forEach(System.out::println);
+    }
+}
+```
+<img width="1552" alt="CompleteBoundedType" src="https://user-images.githubusercontent.com/50267433/109458484-38b9f880-7aa0-11eb-9424-75f3819de932.png">
+     
+또한, 타입이 특정 클래스의 하위 클래스로 확정이 되었기에      
+`t.split(" ").length;`와 같이 불필요한 타입 캐스팅을 하지 않아도 된다.  
+이전에는 클래스가 지정이 안된 `T`였기 때문에           
+String 클래스의 메서드를 사용하고자 한다면 String 타입으로 캐스팅해야 했지만,        
+매서드 호출에서부터 `String 및 그 이하` 클래스로 제한을 두었기에 클래스 요소들을 사용할 수 있다.      
 
 
 
