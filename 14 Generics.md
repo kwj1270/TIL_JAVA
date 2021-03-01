@@ -209,11 +209,15 @@ public class Test {
     }
 }
 ```
-`generic`는 컴파일 타임에서 코드의 적합성을 판단해 컴파일 에러를 발생시킨다.      
+`generics`는 컴파일 타임에서 코드의 적합성을 판단해 컴파일 에러를 발생시킨다.      
 위 코드는 컴파일 에러가 발생하지 않는다. 
 그렇다면 올바른 코드 사용 및 `generics` 사용이라고 말할 수 있을 까?  
     
-아니다. 위 코드의 결과는 아래와 같다.     
+아니다. 위 코드의 결과는 아래와 같다.       
+    
+<img width="1552" alt="ClassCastingError" src="https://user-images.githubusercontent.com/50267433/109456636-9b10fa00-7a9c-11eb-9544-fff371ef1c65.png">   
+
+이 처럼 `generics`를 사용한다 하더라도 컴파일 에러를 통해 에러를 잡을 수 없으며  
 
 
 
