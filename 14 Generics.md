@@ -51,9 +51,119 @@ Erasure
 ```
   
 # Generics 사용법       
+## Generics 클래스 선언   
+```java
+class Name <T> {
+    
+    private T t;
+     
+    public Name(T t){
+        this.t = t;
+    }
+    
+}
+
+class Name2 <L, R> {
+    
+    private L l;
+    private R r;
+    
+    public Name2(L l, R r){
+        this.l = l;
+        this.r = r;
+    }
+
+}
+```   
+`Generics 클래스`는 클래스 이름 옆에 `<문자>`의 형태로 기술해주면 된다.        
+이후, 확정되지 않은 자료형을 사용할 때는 `문자`의 형태로 기술해주기만 하면 된다.         
+또한, 위 코드에서 알 수 있듯이 2가지 타입에 대한 `Generics 클래스`를 정의할 수 있다.   
+
+`<T>`와 같은 요소를 타입 매개변수라고 부르는데, 이 타입 매개변수의 이름은 짓기 나름이다.    
+그러나 일반적으로 2가지 규칙을 지켜서 이름을 짓는다.   
+   
+* 한 문자로 이름을 짓는다.   
+* 대문자로 이름을 짓는다.  
+
+그리고 이러한 규약에 근거해 자주 사용되는 네이밍이 있다.   
+
+* E : Element
+* K : Key
+* N : Number
+* T : Type
+* V : Value  
+
+## Generics 메서드   
+```java
+class Name <T> {
+    
+    private T t;
+     
+    public Name(T t){
+        this.t = t;
+    }
+    
+}
+```
+클래스 레벨에서 `Generics 타입 매개변수`를 선언하고,   
+메서드에서 동일한 `Generics 타입 매개변수`를 사용한다면 따로 기술하지 않아도 된다.    
+
+```java
+class Name<T> {
+
+    private T t;
+
+    public Name(T t) {
+        this.t = t;
+    }
+    
+    public <V> V makeMap(V value) {
+        return value;
+    }
+}
+
+class Name2 {
+    
+    public <V> V makeMap(V value) {
+        return value;
+    }
+}
+```   
+하지만, 다른 타입의 `Generics 타입 매개변수`를 사용하고자 하거나    
+클래스 레벨이 아닌 메서드 레벨에서만 `Generics`를 사용하고자 한다면        
+메서드에 `Generics 타입 매개변수`를 기술하여 사용할 수 있다.         
+  
+## 원시 타입 자료형     
+`Generics`을 이용하기에 앞서 한 가지 제약사항이 있다.        
+바로 `원시 타입 자료형(기본 자료형)`은 직접적으로 사용이 불가능하다는 것이다.          
+정확히 말하면, `Generics`는 `레퍼런스 타입`만을 지원하고 있다.   
+   
+**그렇다면, 원시 타입 자료형은 사용할 수 없는 것일까? 🤔**           
+                
+```java
+class Sample {
+
+    public static void main(String[] args) {
+        ArrayList<Integer> arr = new ArrayList<>();
+        arr.add(1);
+        arr.add(2);
+        arr.add(3);
+        
+        System.out.println(arr.get(0));
+    }
+    
+}
+```
+**아니다,** 원시 타입 자료형도 **각각의 자료형에 맞는 래퍼 클래스가 존재한다.**          
+그리고 **오토 박싱/언박싱 작업을 통해 손쉽게 사용할 수 있다.**       
+      
+## Generics 바운디드 타입
 
 
 
-# Generics 주요 개념 (바운디드 타입, 와일드 카드)    
+
+# 와일드 카드    
 # Generics Method   
 # Type Erasure    
+
+
