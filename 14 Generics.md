@@ -36,8 +36,9 @@ Erasure
 `Generics`은 이런 문제를 해결하고 아래와 같은 장점이 있으니       
 이를 확인하고 실제 코드를 살펴보면서 정리를 해보고자 한다.              
           
-**Generics의 장점**        
-1. 타입 안정성을 제공한다      
+**Generics의 장점**          
+1. 타입 안정성을 제공한다         
+    * `ClassCastException`과 같은 `UncheckedException`을 보장받을 수 있다.    
 2. 타입체크와 형변환을 생략할 수 있으므로 코드가 간결해진다.      
       
 ## 타입 안정성   
@@ -158,7 +159,36 @@ class Sample {
 그리고 **오토 박싱/언박싱 작업을 통해 손쉽게 사용할 수 있다.**       
       
 ## Generics 바운디드 타입
+`바운디드 타입`은 `Generics 타입 매개변수`의 대상이 **지정된 클래스의 하위로 제한한다는 뜻이지만,**   
+필자의 관점으로는 조금 다르게 생각하여 **지정된 클래스의 하위도 사용가능하게 해준다**라고 생각한다.  
+   
+`Generics 타입 매개변수`에 지정된 타입들의 상속 관계는 `Generics`에서 유효하지 않다.    
+이게 무슨말이냐면, Parent 클래스와 이를 상속받는 Child 자식클래스가 있다고 가정한다.    
 
+```java
+public class Test {
+
+    private static <T> List<Integer> convertTokenSizeList(List<T> list) {
+        List<Integer> result = new ArrayList<>();
+        for (T t : list) {
+            int tokenSize = ((String) t).split(" ").length;
+            result.add(tokenSize);
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        List<String> myList = new ArrayList<>();
+        myList.add("자 이제 시작이야 내 꿈은~");
+        myList.add("내 꿈을 위한 여행 피카츄 (피카츄)");
+        myList.add("걱정 따윈 없어 (없어)");
+        myList.add("내 친구와 함께니까");
+
+        List<Integer> tokenSizes = convertTokenSizeList(myList);
+        tokenSizes.stream().forEach(System.out::println);
+    }
+}
+```
 
 
 
