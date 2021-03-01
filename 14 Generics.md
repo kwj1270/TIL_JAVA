@@ -31,44 +31,29 @@ Erasure
 프로그래밍을 하다보면 이런 다형성을 이용해 유지보수에 도움을 주는 코드를 작성할 수 있지만,         
 이를 잘못 사용하면, **하위 인스턴스를 사용하지 말아야 할 곳에 하위 인스턴스를 인자로 주입할 수 있고**       
 또한, 이같은 상황은 **컴파일 에러가 없이 동작하기에 버그를 발견하고 찾는데에도 시간이 걸린다.**        
-     
-이를 코드로 표현해서 간략히 얘기하면 아래와 같다.     
-   
+      
+`Generics` 는 이런 문제점을 해결하기 위해 등장한 기능이다.            
+`Generics`은 이런 문제를 해결하고 아래와 같은 장점이 있으니       
+이를 확인하고 실제 코드를 살펴보면서 정리를 해보고자 한다.              
+          
+**Generics의 장점**        
+1. 타입 안정성을 제공한다      
+2. 타입체크와 형변환을 생략할 수 있으므로 코드가 간결해진다.      
+      
+## 타입 안정성   
 ```java 
-class Parent {
-    
-    public void print() {
-        System.out.println("100만원 출금")    
-    }
-    
-}
 
-class Child extends Parent {                             // Parent를 final로 선언할 수 있지만, 다른 하위 클래스를 사용해야하는 경우에는?   
-                                                         // 그리고 이러한 상속에는 제한이 없어 개발자도 모르게 안 좋은 클래스르 만들 수 있다.  
-    @Override
-    public void print() {
-        System.out.println("10만원 출금")    
-    }
-    
-}
-
-class SomeThing {
-    
-    public static void main(String[] args) {
-        Parent parent = new Parent();                    
-        sampleMethod(parent);
-        Child child = new Child();                       
-        sampleMethod(child);                             // child 타입이 들어갔지만, 컴파일 에러가 발생하지 않는다.    
-    }
-    
-    private static void sampleMethod(Parent parent) {    // Parent 타입이기에 자식 클래스인 Child도 올 수 있다.   
-        parent.print();                                  // super 100만원을 출금해야하는데 10만원이 출금되면?      
-    }
-}
 ```
+  
+## 타입 체크 및 형변환
+```java 
 
-
+```
+  
 # Generics 사용법       
+
+
+
 # Generics 주요 개념 (바운디드 타입, 와일드 카드)    
 # Generics Method   
 # Type Erasure    
