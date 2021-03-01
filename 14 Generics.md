@@ -658,7 +658,7 @@ class GenericClass {
     }
 }
 ```
-Java 컴파일러는 타입소거를 아래와 같이 적용한다.
+Java 컴파일러는 타입소거를 아래와 같이 적용한다. 
 
 제네릭 타입( Example<T>) 에서는 해당하는 타입 파라미터 (T) 나 Object로 변경해준다. 
 Object로 변경하는 경우는 unbounded 된 경우를 뜻하며, 이는 <E extends Comparable<E>>와 같이 bound를 해주지 않은 경우를 의미한다.
