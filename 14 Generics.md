@@ -627,5 +627,43 @@ public class Test {
 
 
 # Type Erasure    
+자바 컴파일러는 컴파일 과정에서 제네릭에 대해 타입 소거(Type erasure)를 진행한다.         
+타입 소거란 타입정보를 컴파일 타임에만 유지하고, 런타임에는 삭제시켜 버리는 것인데        
+과거 제네릭이 없던 버전과의 하위 호환성을 위해서 이러한 작업을 하는 것이다.   
 
+```java
+List<Object> ol = new ArrayList<Long>(); // 컴파일 에러
+ol.add("타입이 달라 넣을 수 없다");
+```
+위의 2줄의 코드 모두 `<>`선언된 자료형의 타입이 다르기에 컴파일 에러가 발생한다.  
+그리고 이러한 컴파일 에러를 도출하고자 한 것이 `Generics`의 목적이었다.  
+
+**타입소거 전**
+```java
+// 타입소거 전
+class GenericClass <T> {
+
+    public void consume(T paramenter) {
+        paramenter.toString();
+    }
+}
+```
+**타입소거 후**    
+```java
+// 타입소거 후
+class GenericClass {
+
+    public void consume(Object paramenter) {
+        paramenter.toString();
+    }
+}
+```
+Java 컴파일러는 타입소거를 아래와 같이 적용한다.
+
+제네릭 타입( Example<T>) 에서는 해당하는 타입 파라미터 (T) 나 Object로 변경해준다. 
+Object로 변경하는 경우는 unbounded 된 경우를 뜻하며, 이는 <E extends Comparable<E>>와 같이 bound를 해주지 않은 경우를 의미한다.
+따라서 이 소거 규칙에 대한 바이트코드는 제네릭을 적용할 수 있는 일반 클래스, 인터페이스, 메서드에만 해당된다.
+타입 안정성 보존을 위해 필요하다면 type casting을 넣어준다.
+확장된 제네릭 타입에서 다형성을 보존하기 위해 bridege method를 생성한다.
+ 
 
