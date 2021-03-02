@@ -14,6 +14,7 @@ Variable Capture
 메소드, 생성자 레퍼런스
 
 # Lamda   
+## Lamda 등장 이전 (JDK 8 이전)
 
 
 # Lamda 사용법
