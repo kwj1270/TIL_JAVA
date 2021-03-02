@@ -809,9 +809,102 @@ public int java.lang.Integer.compareTo(java.lang.Integer)
 ```
 실제로 리플랙션을 통해 호출해보면 아래와 같은 결과가 나타난다.   
 
+## 조금 더 생각해보자  
+```java
+package me.kwj1270.javaapi.test.domain;
 
+import java.util.Arrays;
 
+public class GenericsArrayTest<T> {
 
- 
+    private T[] array;
 
+    public GenericsArrayTest(int size) {
+        this.array = (T[]) new Object[size];
+    }
 
+    public void addElem(int index, T t) {
+        array[index] = t;
+    }
+
+    public void printElem() {
+        System.out.println(Arrays.toString(array));
+    }
+
+    public static void main(String[] args) {
+        GenericsArrayTest<String> test = new GenericsArrayTest<>(5);
+        test.addElem(0, "안녕하세요");
+        test.addElem(1, "감사해요");
+        test.addElem(2, "잘있어요");
+        test.addElem(3, "다시 만나요");
+        test.addElem(4, "-아따 맘마");
+
+        test.printElem();
+    }
+}
+```
+제네릭을 이용한 배열 생성과정을 나타낸 코드이다.       
+이 코드에서 우리는 한가지 의문점을 가져야 한다.          
+바로, `this.array = (T[]) new Object[size];`와 같이         
+객체를 생성한 후에 타입을 변환해주어야하기 때문이다.             
+      
+```java
+    public GenericsArrayTest(int size) {
+        this.array = new T[size];
+    }
+```
+![]()
+
+실제로 위와 같은 코드를 작성하면 컴파일 에러가 발생한다.         
+
+```java
+class MyClass<T>
+{
+    T field;
+    public void myMethod()
+    {
+       field = new T(); 	// CompilerError : Type parameter 'T' cannot be instantiated directly	
+    }
+}
+```
+사실, 배열 뿐만이 아니라 `new 키워드`를 통해 `T`의 객체를 직접 생성할 수는 없다.        
+이와 관련되어서 우리는 조금만 더 생각하면 된다.   
+
+`제네릭은 컴파일 타임`에서 동작한다.         
+`객체의 생성은 런타임`에서 동작한다.      
+           
+즉, 컴파일 단계에서 제네릭은 생성되는 객체가 무엇인지 알 수 없다.  
+그렇기 때문에, 런타임 단계에서 사용될 수 있도록 `Object` 형태로 객체를 생성하고         
+이후 타입 캐스팅을 통해 본래 우리가 사용하고자 하는 객체로 변환하는 것이다.       
+      
+```java
+class Sample<T> {
+    static T t;
+}
+```    
+추가로, 제네릭은 `static 변수`에서도 **사용할 수 없다.**            
+이유는 간단하다. `static`은 클래스간에 공용으로 사용가능한 요소를 만들기에        
+`Sample<String>.t;`이나 `Sample<Integer>.t`와 같이 사용은 할 수 없다.(타입변경)     
+    
+```java
+class Sample {
+    
+    public static <T> void run(T t){
+	//로직 처리//
+    }
+
+    public static void main(String[] args) {
+        Sample.run(new String("hello"));
+    }
+    
+}
+```
+신기하게도 `static 메서드`에서는 제네릭이 사용 가능하다.              
+단, 조건이 있는데 클래스 레벨이 아닌 메서드 레벨에서의 제네릭만 가능하다.     
+    
+`static 메서드`에서 메서드 레벨의 제네릭이 사용 가능한 이유는      
+우선, 메서드 레벨이기 때문에 변수와 다르게 객체 생성에 영향을 받지 않는다.    
+즉, `Sample<String>.run();`가 아닌 `Sample.run(new 자료형());`이기 때문이다.  
+그렇기에 클래스 타입과 무관하게 동작할 수 있기에 가능한 것이고         
+또한, 메서드의 지역 변수로만 사용하는 것이기에 가능한 것이다.        
+     
