@@ -700,8 +700,63 @@ class GenericClass {
 그렇기 때문에 어떠한 예외 없이 로직을 공통되게 처리해주기 위해서 레퍼런스 타입만을 허용한 것이고        
 `primitive`를 사용하기 위해서 **Object를 상속받는 `Wrapper 클래스`** 를 사용하도록 하는 것이다.       
 
-
-타입 안정성 보존을 위해 필요하다면 type casting을 넣어준다.
-확장된 제네릭 타입에서 다형성을 보존하기 위해 bridege method를 생성한다.
+```java
+Entry<String, Integer> entry = ...;
+String key = entry.getKey();
  
+// 런타임시에 Object로 변환이 되므로     
+// 컴파일러가 타입 castring 을 보장해주는 코드를 넣어준다.      
+
+String key = (String) entry.getKey();
+```
+이후, `<T>`같은 경우 Object로 변환이 되므로 
+`HashMap<K,V>`와 같이 특정 자료형을 보장해주는 클래스가 존재한다면   
+타입 안정성 보존을 위해 `type casting`을 넣어주기도 한다.  
+
+추가적으로, `bridge 메서드`라는 것이 존재한다.   
+
+```java
+public interface Comparable{
+	public int compareTo(Object o);
+}
+
+class Integer implements Comparable{
+    private final int value;
+    public Integer(int value) { this.value = value; }
+    
+    public int compareTo(Integer o){
+        return (this.value < o.value) ? -1 : (value == o.value ? 0 : 1 );
+    }
+    
+    // 개발자가 명시적으로 작성한 캐스팅을 위한 메서드 
+    @Override
+    public int compareTo(Object o) {
+        return compareTo((Integer)o);
+    }
+}
+```
+제네릭이 등장하기 이전에 Comparable 인터페이스 구조는 위와 같다.   
+이때, 파라미터는 모든 타입을 허용해야하므로 `Object` 타입으로 지정되어 있다.     
+그리고 이 과정에서 `Object`를 알맞는 타입으로 캐스팅하여 사용하기도 했다.     
+
+```java
+public interface Comparable<T>{
+	public int compareTo(T o);
+}    
+class Integer implements Comparable<Integer>{
+    private final int value;
+    public Integer(int value) { this.value = value; }
+    
+    @Override
+    public int compareTo(Integer o){
+        return (this.value < o.value) ? -1 : (value == o.value ? 0 : 1 );
+    }
+}
+```       
+하지만, 제네릭의 등장하면서 `타입 확정`으로 인하여              
+이제는 `Object`가 아닌 특정 타입을 기술하여 사용할 수 있게 되었으며    
+이전 코드와 달리, 특정 타이븡로 캐스팅하는 메서드 또한 사용하지 않아도 된다.      
+
+
+
 
