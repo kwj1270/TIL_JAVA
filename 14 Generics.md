@@ -908,3 +908,7 @@ class Sample {
 그렇기에 클래스 타입과 무관하게 동작할 수 있기에 가능한 것이고         
 또한, 메서드의 지역 변수로만 사용하는 것이기에 가능한 것이다.        
      
+# 참고   
+[자바의 정석 - 서적](http://www.yes24.com/Product/Goods/24259565)       
+[윤성우의 열혈 자바 프로그래밍 - 서적](http://www.yes24.com/Product/Goods/43755519)       
+[스터디 할래 스터디원 hsm622님의 블로그](https://blog.naver.com/hsm622/222251602836)   
