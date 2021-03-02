@@ -144,6 +144,34 @@ public class AnonymousClassTest {
 실제로 리플렉션을 이용해 클래스의 이름을 찍어보면 `$숫자`가 붙는 것을 알 수 있다.   
     
 **그렇다면 일반적인 클래스에 대해서도 상속 동작을 하는 것일까? 🤔**   
+이 같은 궁금증을 위해 위 코드를 보면 아래와 같은 코드를 추가했다.
+
+* `System.out.println(anonymousClass.getClass().getName());`   
+
+```java
+me.kwj1270.javaapi.test.AnonymousClassTest$1
+```
+
+그리고 실제로 위와 같은 결과가 나오며,   
+일반 클래스라도 이를 상속받아 진행하는 것을 알게 되었다.  
+    
+<img width="1486" alt="AnonymousClassByteCode" src="https://user-images.githubusercontent.com/50267433/109666175-4bbced80-7bb2-11eb-8d08-72573af24a76.png">   
+   
+추가로, 바이트 코드를 확인했을 때도 클래스를 상속받아 진행하는 것을 알 수 있다.      
+    
+## Lamda 등장 (JDK 8 이후)      
+익명 클래스로 인하여 불필요한 클래스를 따로 만들지 않고          
+그 자리에서 바로바로 생성하여 사용할 수 있게 되었다.         
+         
+하지만, 앞서 보았듯이 코드가 길어지고 가독성이 안 좋아진다는 큰 단점이 있다.    
+
+
+
+
+
+
+    
+  
 
 
 
