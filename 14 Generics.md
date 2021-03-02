@@ -760,7 +760,58 @@ class Integer implements Comparable<Integer>{
 하지만, 제네릭의 등장하면서 `타입 확정`으로 인하여              
 이제는 `Object`가 아닌 특정 타입을 기술하여 사용할 수 있게 되었으며     
 이전 코드와 달리, 특정 타입으로 캐스팅하는 메서드 또한 사용하지 않아도 된다.      
+        
+하지만 여기서 한가지 의문이 발생한다.        
+   
+> Java는 하위 호환성을 중요시 여기는 언어인데, 위와 예시와 같이      
+> Generic 도입에 따라서 메소드 수가 줄어들게 되면,         
+> 클래스 구조가 변경되므로 하위 호환성을 유지할 수 있을까?'      
+   
+일리 있는 생각이다.    
+그리고 실제로 JVM Compiler에서는 브릿지 메서드를 지원한다.     
+     
+```java
+public interface Comparable<T>{
+	public int compareTo(T o);
+}    
+class Integer implements Comparable<Integer>{
+    private final int value;
+    public Integer(int value) { this.value = value; }
+    
+    @Override
+    public int compareTo(Object o) {		// 지정된 타입마다 다르게 변환된다.
+        return compareTo((Integer)o);		// 반환형, 캐스팅은 타입에 따라 알맞게 변환된다.   
+    }
+    
+    @Override
+    public int compareTo(Integer o){
+        return (this.value < o.value) ? -1 : (value == o.value ? 0 : 1 );
+    }
+}
+```   
 
 
+```java
+public class Main {
+    public static void main(String[] args) {
+        Stream.of(Integer.class.getDeclaredMethods())
+                .filter(m -> "compareTo".equals(m.getName()))
+                .map(Method::toGenericString)
+                .forEach(System.out::println);
+    }
+}
+/* 실핼 결과 
+
+public int java.lang.Integer.compareTo(java.lang.Object)
+public int java.lang.Integer.compareTo(java.lang.Integer)
+
+*/
+```
+실제로 리플랙션을 통해 호출해보면 아래와 같은 결과가 나타난다.   
+
+
+
+
+ 
 
 
