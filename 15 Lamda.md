@@ -160,18 +160,66 @@ me.kwj1270.javaapi.test.AnonymousClassTest$1
 추가로, 바이트 코드를 확인했을 때도 클래스를 상속받아 진행하는 것을 알 수 있다.      
     
 ## Lamda 등장 (JDK 8 이후)      
-익명 클래스로 인하여 불필요한 클래스를 따로 만들지 않고          
-그 자리에서 바로바로 생성하여 사용할 수 있게 되었다.         
-         
-하지만, 앞서 보았듯이 코드가 길어지고 가독성이 안 좋아진다는 큰 단점이 있다.    
+익명 클래스로 인하여 불필요한 클래스를 따로 만들지 않고           
+그 자리에서 바로바로 생성하여 사용할 수 있게 되었다.                     
+하지만, 앞서 보았듯이 코드가 길어지고 가독성이 안 좋아진다는 단점이 있다.       
+             
+때마침, `JDK 8`부터 병렬처리와 이벤트 지향 프로그래밍 지원하고자          
+`Lamda`가 등장하면서, 익명 클래스의 일정 부분은 간결한 코드로 대체가 가능해졌다.    
+       
+**Lamda 등장 배경**  
+```
+하나의 CPU 안에 다수의 코어를 삽입하는 멀터 코어 프로세서들이 등장하면서      
+일반 프로그래머에게도 병렬화 프로그램이에 대한 필요성이 생기기 시작했다.        
+
+이러한 추세에 대응하기 위해 
+자바8 에서는 병렬화를 위한 컬렉션(배열, List, Set, Map)을 강화했고,    
+이러한 컬렉션을 더 효율적으로 사용하기 위해 스트림이 추가되었고   
+또 스트림을 효율적으로 사용하기 위해 함수형 프로그램이,    
+다시 함수형 프로그래밍을 위해 람다가,   
+또 람다를 위해 인터페이스의 변화가수반되었다.   
+람다를 지원하기 위한 인터페이스를 함수형 인터페이스라고 한다.  
+이를 정리하면 아래와 같다.
+
+빅데이터 지원 -> 병렬화 강화 -> 컬렉션 강화 -> 스트림 강화 -> 
+람다 도입 -> 인터페이스 명세 변경 -> 함수형 인터페이스 도입
+```
+
+람다의 장점이라고 말하자면,
+
+**Lamda로 리팩터링 전**
+```java
+public class AnonymousClassTest {
+    public static void main(String[] args) {
+        AnonymousPrintTest anonymousPrintTest = new AnonymousPrintTest();
+
+        // 인터페이스를 기준으로 익명 클래스 인스턴스를 생성하고 인터페이스를 상속받아 메서드를 오버라이딩 했다.
+        anonymousPrintTest.print(new AnonymousInterface() {
+            @Override
+            public void print() {
+                System.out.println("this is AnonymousClass");
+            }
+        });
 
 
+    }
+}
+```
+
+**Lamda로 리팩터링 후**
+```java
+public class AnonymousClassTest {
+    public static void main(String[] args) {
+        AnonymousPrintTest anonymousPrintTest = new AnonymousPrintTest();
+
+        // 인터페이스를 기준으로 익명 클래스 인스턴스를 생성하고 인터페이스를 상속받아 메서드를 오버라이딩 했다.
+        anonymousPrintTest.print(()-> System.out.println("this is AnonymousClass"));
+    }
+}
+```
+코드가 확연히 줄어든 것을 알 수 있다.   
 
 
-
-
-    
-  
 
 
 
@@ -184,3 +232,6 @@ me.kwj1270.javaapi.test.AnonymousClassTest$1
 # Functional Interface
 # Variable Capture
 # 메소드, 생성자 레퍼런스
+# 참고 
+[KTKO 개발 블로그와 여행 일기 - 자바 람다와 함수형 인터페이스](https://ktko.tistory.com/entry/자바-18-버전-특성람다-인터페이스-부분-정리해보기)    
+
