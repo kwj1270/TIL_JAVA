@@ -225,7 +225,8 @@ public class Test {
     
 아니다. 위 코드의 결과는 아래와 같다.       
     
-<img width="1552" alt="ClassCastingError" src="https://user-images.githubusercontent.com/50267433/109456636-9b10fa00-7a9c-11eb-9544-fff371ef1c65.png">   
+<img width="1552" alt="ClassCastingError" src="https://user-images.githubusercontent.com/50267433/109456636-9b10fa00-7a9c-11eb-9544-fff371ef1c65.png">      
+
 
 이 처럼 `Generics`를 사용한다 하더라도 컴파일 에러를 통해 에러를 잡을 수 없으며     
 오히려 어설프게 사용함으로써 생기는 `클래스 캐스팅` 관리는 개발자의 머리를 복잡하게 한다.   
@@ -277,7 +278,8 @@ public class Test {
     }
 }
 ```
-<img width="1440" alt="PresentCompileError" src="https://user-images.githubusercontent.com/50267433/109458460-29d34600-7aa0-11eb-8aa8-e9041433e9f5.png">
+<img width="1440" alt="PresentCompileError" src="https://user-images.githubusercontent.com/50267433/109458460-29d34600-7aa0-11eb-8aa8-e9041433e9f5.png">   
+
          
 메서드의 선언부에 존재하는 `Generics`를 `<T extends String>`로 바꾸었다.         
 그 결과 이전에, 볼 수 없었던 컴파일 에러가 발생한 것을 알 수 있다.          
@@ -318,7 +320,8 @@ public class Test {
     }
 }
 ```
-<img width="1552" alt="CompleteBoundedType" src="https://user-images.githubusercontent.com/50267433/109458484-38b9f880-7aa0-11eb-9424-75f3819de932.png">
+<img width="1552" alt="CompleteBoundedType" src="https://user-images.githubusercontent.com/50267433/109458484-38b9f880-7aa0-11eb-9424-75f3819de932.png">  
+
      
 또한, 타입이 특정 클래스의 하위 클래스로 확정이 되었기에      
 `t.split(" ").length;`와 같이 불필요한 타입 캐스팅을 하지 않아도 된다.  
@@ -408,8 +411,9 @@ class Test2 {
 ```java
         List<Some> someList = myList;           // 컴파일 에러    
 ```
-<img width="1440" alt="바운디드 타입" src="https://user-images.githubusercontent.com/50267433/109463314-1f1caf00-7aa8-11eb-8c3c-15011a9b88ff.png">   
-  
+<img width="1440" alt="바운디드 타입" src="https://user-images.githubusercontent.com/50267433/109463314-1f1caf00-7aa8-11eb-8c3c-15011a9b88ff.png">     
+
+   
 그렇다면 어떻게 위와 같은 작업이 가능했던 것일까?   
        
 여기서 많이 헷갈리는 것이 **상속관계로 값이 들어온다고 생각하는데 절대 아니다**   
@@ -481,7 +485,7 @@ private static List<Integer> convertTokenSizeList(<? extends Some> list) {
 하지만, 몇가지 다른 사항이 있고 이는 와일드 카드의 가치를 높여준다.     
     
 * 상한 제한이 가능하다.          
-* **하한 제한이 가능하다.        
+* **하한 제한이 가능하다.**          
 * **대상 클래스로 `Generics`를 사용할 수 있다.**    
     
 ## 상한 제한 
@@ -911,4 +915,5 @@ class Sample {
 # 참고   
 [자바의 정석 - 서적](http://www.yes24.com/Product/Goods/24259565)       
 [윤성우의 열혈 자바 프로그래밍 - 서적](http://www.yes24.com/Product/Goods/43755519)       
+[we-hate-jvm Generic](https://github.com/Road-of-CODEr/we-hate-jvm/blob/master/Generic/README.md)
 [스터디 할래 스터디원 hsm622님의 블로그](https://blog.naver.com/hsm622/222251602836)   
