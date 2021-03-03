@@ -263,9 +263,14 @@ logger.info("x : " + x + ", y : " + y);
 ```java
 public static void info(Logger logger, Suppiler<String> str){
     if(logger.isLoggable(Level.INFO))
-    logger.info(str.get());
+        logger.info(str.get());
 }
 ```
+```java 
+
+```
+이 같이 메서드를 정의하고 
+
 
 
 
