@@ -259,8 +259,16 @@ logger.info("x : " + x + ", y : " + y);
                   
 즉, 하나의 스레드에서는 원래의 `x`와 `y`의 값을 가지는데,             
 또 다른 스레드에서는 어떤 로직으로 인하여 변형된 `x`와 `y`의 값을 문자열로 만들 수 있다.           
-              
-                   
+
+```java
+public static void info(Logger logger, Suppiler<String> str){
+    if(logger.isLoggable(Level.INFO))
+    logger.info(str.get());
+}
+```
+
+
+
 이 외에도 생성하기에 버거운 객체의 초기화를 뒤로 미뤄서 초기 로딩 속도를 높이는 방법이 있다.                   
 예를 들면 화면을 보여주는데 빨리 보여줄수 있는 텍스트와 무거운 이미지가 있다면,     
 텍스트를 먼저 보여주면서 화면을 빠르게 띄우고,      
