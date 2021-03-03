@@ -259,8 +259,60 @@ logger.info("x : " + x + ", y : " + y);
                   
 즉, 하나의 스레드에서는 원래의 `x`와 `y`의 값을 가지는데,             
 또 다른 스레드에서는 어떤 로직으로 인하여 변형된 `x`와 `y`의 값을 문자열로 만들 수 있다.           
+              
+                   
+이 외에도 생성하기에 버거운 객체의 초기화를 뒤로 미뤄서 초기 로딩 속도를 높이는 방법이 있다.                   
+예를 들면 화면을 보여주는데 빨리 보여줄수 있는 텍스트와 무거운 이미지가 있다면,     
+텍스트를 먼저 보여주면서 화면을 빠르게 띄우고,      
+이미지는 실제 로딩이 필요한 순간에 가져오도록 시킬 수 있다.     
+        
+사실, `lazy`한 코드를 작성하기 위해서는 더 많은 노력이 들어가며 종종 버그를 만들기도 한다.
+하지만 `Lamda`의 지연 연산을 이용하면 이런 단점들을 효과적으로 커버할 수 있다.    
 
 
+
+   
+```java
+public class Heavy { 
+    public Heavy() { 
+        System.out.println("Heavy created"); 
+    } 
+    public String toString() { 
+        return "quite heavy"; 
+    } 
+}
+```
+```java
+//Hodler 클래스
+//Holder 클래스는 heavy 클래스를 포함하고 있다.
+class Holder {
+
+    private Heavy heavy;
+
+    public Holder() {
+        System.out.println("Holder created");
+    }
+
+    public Heavy getHeavy() {
+        if (heavy == null) {
+            heavy = new Heavy();
+        }
+        return heavy;
+    }
+
+}
+```
+```java
+public class Main {
+    public static void main(final String[] args) {
+        final Holder holder = new Holder();
+        System.out.println("deferring heavy creation...");
+        System.out.println(holder.getHeavy());
+        System.out.println(holder.getHeavy());
+    }
+
+}
+```
 
 
 
