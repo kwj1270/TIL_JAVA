@@ -273,16 +273,16 @@ logger.info("x : " + x + ", y : " + y);
 
    
 ```java
-public class Heavy { 
-    public Heavy() { 
-        System.out.println("Heavy created"); 
-    } 
-    public String toString() { 
-        return "quite heavy"; 
-    } 
+class Heavy {
+    public Heavy() {
+        System.out.println("Heavy created");
+    }
+
+    public String toString() {
+        return "quite heavy";
+    }
 }
-```
-```java
+
 //Hodler 클래스
 //Holder 클래스는 heavy 클래스를 포함하고 있다.
 class Holder {
@@ -301,8 +301,7 @@ class Holder {
     }
 
 }
-```
-```java
+
 public class Main {
     public static void main(final String[] args) {
         final Holder holder = new Holder();
