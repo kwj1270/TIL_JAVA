@@ -683,7 +683,7 @@ public class ToIntBiFunctionTest {
         MyBox myBox2 = new MyBox(2);
 
         ToIntBiFunction<MyBox, MyBox> bf = (box1, box2) -> box1.lager(box2);
-        System.out.println(f.apply("2").getClass().getName());       
+        System.out.println(bf.applyAsInt(myBox1, myBox2));
     }
 
 }
@@ -704,14 +704,13 @@ class MyBox{
     }
 }
 
-public class ToIntBiFunctionTest {
+class ToIntBiFunctionTest {
     public static void main(String[] args) {
         MyBox myBox1 = new MyBox(1);
         MyBox myBox2 = new MyBox(2);
 
         ToIntBiFunction<MyBox, MyBox> bf = MyBox::lager;
-        System.out.println(f.apply("2").getClass().getName());
-
+        System.out.println(bf.applyAsInt(myBox1, myBox2));
     }
 
 }
