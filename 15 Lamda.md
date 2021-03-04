@@ -851,7 +851,14 @@ public class StringMaker {
     }
 }
 ```
-   
+코드에서 보이는 것처럼 `클래스이름::new`라는 형태로 작성해주면 된다.  
+메서드 레퍼런스와 마찬가지로, 매개변수의 개수 및 형태가 일치해야한다.  
+
+```java
+Function<Integer, int[]> f = x -> new int[x];
+Function<Integer, int[]> f = int[]::new;
+```
+배열을 생성할 수도 있는데, 이때는 `자료형[]::new` 형태로 작성해주면 된다.     
     
 ## System.out.println    
 
@@ -867,10 +874,10 @@ public class ArrangeList {
     }
 }
 ```
-참고로 out은 System 클래스 내에 존재하는 `인스턴스 참조 변수` 이다.     
-즉 어떤 인스턴스를 참조하고 있고 거기에는 `print` 관련 메서드들이 있는 것이었다.     
-out 은 인스턴스 참조 변수이고 이중 메서드 1개만 이용할 경우 `참조변수를 통한 인스턴스 메서드 참조`가 성립된다.   
-그렇기에 `System.out.println()` 에 대해서도 메서드 참조가 가능하다.     
+참고로 `System 클래스` 내에 존재하는 `out`은 `인스턴스 참조 변수` 이다.      
+`printStream` 인스턴스를 참조하고 있으며 이를 통해, `print-`메서드를 사용할 수 있던 것이다.       
+`out`을 통해 `print-`메서드를 사용하는 경우 `인스턴스를 통한 인스턴스 메서드 참조`가 성립된다.   
+그렇기에 `System.out.println()` 에 대해서도 메서드 참조가 가능하다.       
     
 
 # 참고 
