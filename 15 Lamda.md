@@ -795,8 +795,7 @@ public class ArrangeList {
 `Integer`의 `parseInt()`는 `static 메서드`이다.      
 이 같은 `static 메서드`는 `클래스이름 ::메서드`형태로 메서들 레퍼런스를 작성하면 된다.    
 
-### 인스턴스 참조 변수를 통한 인스턴스 메서드 참조     
-
+### 외부 영역 인스턴스의 메서드 레퍼런스      
 **람다식 코드**
 ```java
 import java.util.ArrayList;
@@ -850,10 +849,9 @@ public class ArrangeList3 {
     }
 }
 ```   
-외부 인스턴스변수를 사용하더라도 **람다식 내에서 함수 1개만 사용하므로 메서드 참조를 사용할 수 있다.**    
+다른 영역에 존재하는 인스턴스를 통해서도 메서드 레퍼런스를 진행할 수 있다.   
 
 ### 클래스 이름을 통한 인스턴스 메서드 참조        
-
 **람다식 코드**
 ```java
 import java.util.function.ToIntBiFunction;
