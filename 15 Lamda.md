@@ -654,13 +654,51 @@ public class InterfaceStudy {
 아래는 필자가 정리해본 메서드 래퍼런스 사용가능 영역에 대해서 나눈 것이다.  
 
 
-1. 동일 영역 인스턴스의 메서드
-2. 외부 영역 인스턴스의 메서드 
-3. static 메서드 레퍼런스  
-4. 인스턴스 참조 변수를 통한 인스턴스 메서드 레퍼런스  
-5. 클래스 이름을 통한 인스턴스 메서드 레퍼런스  
+1. static 메서드 레퍼런스  
+2. 동일 영역 인스턴스의 메서드
+3. 외부 영역 인스턴스의 메서드 
+      
+|종류|람다|메서드 참조|       
+|---|---|--------|   
+|static 메서드 레퍼런스|(x) -> ClassName.method(x)|`클래스이름::메서드`|        
+|동일 영역 인스턴스의 메서드|(o1, o2) -> o1.method(o2)|`클래스이름:메서드`|        
+|외부 영역 인스턴스의 메서드|(x)-> extObj.method(x)|`인스턴스변수::메서드`|         
 
+위 테이블을 필자 나름대로 해석하면 이렇다.   
+        
+* 인스턴스 메서드일 경우, 인스턴스 상태에서 메서드 레퍼런스를 진행한다.    
+* 단, 동일 영역에서 다른 인자값을 매개변수로 가지는 경우 클래스로 진행한다.     
+* static 메서드는 인스턴스를 생성하지 안고도 사용되어야 하므로 클래스로 진행한다.    
+  
+     
+### static 메서드 레퍼런스         
+**람다식 코드**
+```java
+import java.util.function.Function;
 
+public class StaticTest {
+    public static void main(String[] args) {
+        Function<String, Integer> f = s -> Integer.parseInt(s);
+        System.out.println(f.apply("2").getClass().getName());
+    }
+}
+```
+
+**메서드 참조 코드**   
+```java
+import java.util.function.Function;
+
+public class ArrangeList {
+    public static void main(String[] args) {
+        Function<String, Integer> f = Integer::parseInt;
+        System.out.println(f.apply("2").getClass().getName());
+    }
+}
+```  
+`Integer`의 `parseInt()`는 `static 메서드`이다.         
+이 같은 `static 메서드`는 `클래스이름 ::메서드`형태로 메서들 레퍼런스를 작성하면 된다.        
+추가로, 우리가 가장 쉽게 접할 수 있는 메서드 레퍼런스 유형이지 않을까 싶다.         
+   
 ### 동일 영역 인스턴스의 메서드 레퍼런스 
 **람다식 코드**
 ```java
@@ -688,7 +726,7 @@ public class ToIntBiFunctionTest {
 
 }
 ```  
-    
+
 **메서드 레퍼런스 코드**   
 ```java
 import java.util.function.ToIntBiFunction;
@@ -715,9 +753,9 @@ class ToIntBiFunctionTest {
 
 }
 ```
-메서드의 매개변수가 다른 매개변수의 값을 인자로 원할 경우       
-이를 메서드 레퍼런스를 이용하여 간략히 표현할 수 있다.           
-   
+동일 영역에 있는 인자값을 사용하는 메서드 레퍼런스 같은 경우     
+이미 인스턴스로 생성을 했다 하더라도 `클래스이름::메서드` 형태로 작성해야한다.     
+    
 ### 외부 영역 인스턴스의 메서드 레퍼런스   
 **람다식 코드**
 ```java
@@ -772,44 +810,15 @@ public class ArrangeList3 {
     }
 }
 ```   
-다른 영역에 존재하는 인스턴스의 사용도          
-조건이 맞으면 메서드 레퍼런스를 진행허여 간략화 시킬 수 있다.             
-   
-### static 메서드 레퍼런스  
-**람다식 코드**
-```java
-import java.util.function.Function;
-
-public class StaticTest {
-    public static void main(String[] args) {
-        Function<String, Integer> f = s -> Integer.parseInt(s);
-        System.out.println(f.apply("2").getClass().getName());
-    }
-}
-```
-
-**메서드 참조 코드**   
-```java
-import java.util.function.Function;
-
-public class ArrangeList {
-    public static void main(String[] args) {
-        Function<String, Integer> f = Integer::parseInt;
-        System.out.println(f.apply("2").getClass().getName());
-    }
-}
-```
-`Integer`의 `parseInt()`는 `static 메서드`이다.      
-이 같은 `static 메서드`는 `클래스이름 ::메서드`형태로 메서들 레퍼런스를 작성하면 된다.    
-
-
-### 클래스 이름을 통한 인스턴스 메서드 레퍼런스
-
-### 인스턴스/클래스 메서드 레퍼런스 차이 
-
-
-
+외부 영역에 존재하는 인스턴스를 사용할 시에 `인스턴스::메서드` 형태로 작성한다.           
+물론, 메서드가 `static`이면 `클래스::메서드`형태로 작성을 해도 된다.           
+하지만, 이는 위해서 설명한 유형이고 인스턴스 메서드일 경우 꼭 인스턴스를 만들어 사용해야한다.        
+    
 ## 생성자 레퍼런스    
+    
+생성자도 특정 조건이 갖추어졌을 경우 생성자 레퍼런스를 활용할 수 있다.        
+또한, 매개변수가 없는 생성자도 똑같은 방법으로 만들 수 있다.             
+여기서도 알아둘 점은 람다식에 사용하는 코드가 생성자 1개 뿐일 때 가능하다.   
 
 **람다식 코드**
 ```java
@@ -827,7 +836,7 @@ public class StringMaker {
 }
 ```
 
-**메서드 함수**
+**생성자 레퍼런스**     
 ```java
 import java.util.function.Function;
 
@@ -842,9 +851,7 @@ public class StringMaker {
     }
 }
 ```
-**생성자도 일종의 메서드이기에 매개 변수만 맞을 경우 이를 사용할 수 있다.**          
-또한 매개변수가 없는 생성자라도 똑같은 방법으로 만들 수 있다.        
-여기서도 알아둘 점은 사용하는 메서드(생성자) 1개 뿐일 때 가능했다는 것이다.      
+   
     
 ## System.out.println    
 
