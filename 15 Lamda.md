@@ -649,16 +649,16 @@ public class InterfaceStudy {
 # Variable Capture
 `Variable Capture`란 `Lamda`의 익명 클래스 생성을 활용한 방법으로         
 `Lamda` 외부에서 참조변수를 통해 `Lamda`를 통해 생성된 익명클래스를 참조한다.   
-     
-하지만, `Variable Capture` 에는 한 가지 조건이 있다.        
-바로 `Lamda` 식에서 사용하는 캡처된 변수들이 `effectively final` 이어야 한다는 점이다.    
+       
+하지만, `Variable Capture` 에는 한 가지 조건이 있다.            
+바로, `Lamda` 식에서 사용하는 캡처된 변수들은 `effectively final`이어야 한다.            
               
 ```
 캡처된 변수란?        
 중첩 된 클래스에서 사용할 수 있도록 복사 된 변수를 뜻한다.              
 즉, 매개변수로 들어온 복사된 값이 아닌 실제 값을 사용한다고 생각하면 된다.         
 ```
-                         
+
 보다 정확히 설명하면, 익명 클래스는 그들을 둘러싼 영역(메서드)의 지역 변수를 캡처할 수 있다.           
 하지만, 캡처된 지역 변수는 해당 메서드 스택 영역에만 존재하는 지역 변수이며            
 `JVM 메모리 구조 특성상 스레드간의 공유가 되지 않는다`는 문제가 있다.     
@@ -676,18 +676,8 @@ public class InterfaceStudy {
                   
 그렇기에 스레드간의 지역 변수를 공유하지 못하도록 한 것이며       
 이는 다른 프로그래밍 언어에서도 마찬가지이다.      
-                    
-다시 본론으로 돌아와서        
-Java 컴파일러는 `외부` 변수와 `내부` 변수 값 사이의 불일치를 피하기 위해      
-캡처된 모든 변수가 `effectively final`임을 확인을 하고 아닐 경우, 에러를 발생시킨다.                 
-               
-이에 대응하기 위해 Java는 로컬 변수의 복사본을 만들고 내부 클래스에 대한 참조로 제공한다. 
-두 복사본 간의 일관성을 유지하기 위해 지역 변수는 `최종`이어야하며 수정할 수 습니다.     
 
-   
-
-이를 설명하기 위해서 `Lamda` 등장 이전의 익명 클래스에서의 `Variable Capture`를 설명하겠다. 
-    
+**익명 클래스**
 ```java
    JButton button = new JButton("Press me!");
    String message = "Never been pressed";
@@ -704,6 +694,23 @@ Java 컴파일러는 `외부` 변수와 `내부` 변수 값 사이의 불일치�
 ```java
 Cannot refer to a non-final variable message inside an inner class defined in a different method
 ```  
+
+다시 본론으로 돌아와서        
+Java 컴파일러는 `외부` 변수와 `내부` 변수 값 사이의 불일치를 피하기 위해      
+캡처된 모든 변수가 `effectively final`임을 확인을 하고 아닐 경우, 에러를 발생시킨다.                 
+                          
+또한, Java는 로컬 변수의 **복사본을 만들고** 내부 클래스에 대한 **참조로 제공**한다.          
+그리고 두 복사본 간의 일관성을 유지하기 위해 지역 변수는 `final`로 제한을 두었다.             
+
+하지만, 앞서 `effectively final`임을 확인한다고 했다.      
+**그렇다면 `effectively final`는 무엇일까? 🤔**   
+              
+**`effectively final`이란** Java 8 에 추가된 syntactic sugar 일종으로,     
+**초기화 된 이후 값이 한번도 변경되지 않은 것을 의미한다.**                       
+`effectively final`변수는 `final` 키워드가 붙어있지 않았지만 값이 변형되지 않았기에    
+**`final` 키워드를 붙힌 것과 동일하게 컴파일러에서 처리한다.**         
+
+
 
 
 # 메소드/생성자 레퍼런스
