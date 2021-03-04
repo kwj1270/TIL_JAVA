@@ -6,11 +6,7 @@
 [3. Functional Interface](#functional-interface)        
 [4. Variable Capture](#variable-capture)         
 [5. 메소드, 생성자 레퍼런스](#메소드생성자-레퍼런스)      
-       
-추가할 것 -> lazy/캡쳐 방식 3개  
-
-       
-       
+              
 # Lamda         
 자바는 `JDK 8` 에 도입된 `Lamda`로 인해               
 **객체지향언어인 동시에 함수형 언어**가 되었다고 평가된다.              
@@ -297,9 +293,7 @@ public class Main {
 }  
 ```
  
- 
- 
- 
+
 # Lamda 사용법
 추상메서드를 1개만 가진 인터페이스를 기준으로 작성할 수 있으며                     
 인터페이스를 구현하고 추상메서드를 정의해서 사용했던 것과 달리                    
@@ -699,6 +693,59 @@ Java 컴파일러는 `외부` 변수와 `내부` 변수 값 사이의 불일치�
 `effectively final`변수는 `final` 키워드가 붙어있지 않았지만 값이 변형되지 않았기에    
 **`final` 키워드를 붙힌 것과 동일하게 컴파일러에서 처리한다.**           
 그리고 이러한 특성 덕분에 람다/익명 클래스에서 무리없이 사용이 가능하다.   
+
+
+## Local Variable Capture  
+`Lamda 표현식`은 본문 외부에 존재하는 `지역 변수`를 캡처할 수 있다.         
+    
+```java
+public interface MyFactory {
+    public String create(char[] chars);
+}
+```
+```java
+String myString = "Test";
+
+MyFactory myFactory = (chars) -> {
+    return myString + ":" + new String(chars);
+};
+```
+
+
+## Instance Variable Capture   
+`Lamda 표현식`은 `인스턴스 참조 변수`를 캡처할 수 있다.       
+
+```java
+public class EventConsumerImpl {
+
+    private String name = "MyConsumer";
+
+    public void attach(MyEventProducer eventProducer){
+        eventProducer.listen(e -> {
+            System.out.println(this.name);
+        });
+    }
+}
+```
+캡처 후 인스턴스 변수의 값을 변경할 수도 있으며 값은 람다 내부에 반영된다.
+
+
+## Static Variable Capture    
+`Lamda 표현식`은 `static 변수`를 캡처할 수 있다.       
+      
+```java
+public class EventConsumerImpl {
+    private static String someStaticVar = "Some text";
+
+    public void attach(MyEventProducer eventProducer){
+        eventProducer.listen(e -> {
+            System.out.println(someStaticVar);
+        });
+    }
+}
+```
+그리고, `static 변수`의 값은 람다가 캡처 한 후에도 변경할 수 있다.   
+
 
 # 메소드/생성자 레퍼런스
 ## 메서드 레퍼런스 
