@@ -228,11 +228,10 @@ public class AnonymousClassTest {
 람다는 본래 병렬처리를 위해 등장했다고 한다.        
 그렇다면 어떠한 이점 때문에 **병렬처리를 위해 람다를 사용하는 것일까? 🤔**         
    
-우선, 이와 관련되어서 2개의 사이트에서 해답을 얻을 수 있었다.   
-     
-* [wedul님의 블로그](https://wedul.site/334)      
-* [fitz님의 블로그](https://blog.fitz.software/46)     
-    
+우선, 이와 관련되어서 아래의 사이트에서 해답을 얻을 수 있었다.   
+      
+* [tourspace님의 블로그](https://tourspace.tistory.com/76)
+
 람다에서는 지연 연산을 지원한다.     
 그리고 이는 병렬처리와 매우 관련이 있다.   
     
@@ -253,6 +252,8 @@ public class AnonymousClassTest {
 하지만 **`Lamda`의 지연 연산을 이용하면 이런 단점들을 효과적으로 커버할 수 있다.**           
         
 ```java
+import java.util.function.Supplier;
+
 class Heavy {
     public Heavy() {
         System.out.println("Heavy created");
@@ -263,36 +264,60 @@ class Heavy {
     }
 }
 
-//Hodler 클래스
-//Holder 클래스는 heavy 클래스를 포함하고 있다.
 class Holder {
-
-    private Heavy heavy;
+    private Supplier<Heavy> heavy = () -> createAndCacheHeavy();
 
     public Holder() {
         System.out.println("Holder created");
     }
 
     public Heavy getHeavy() {
-        if (heavy == null) {
-            heavy = new Heavy();
-        }
-        return heavy;
+        return heavy.get();
     }
 
-}
+    private synchronized Heavy createAndCacheHeavy() {
+        class HeavyFactory implements Supplier<Heavy> {
+            private final Heavy heavyInstance = new Heavy();
 
-public class Main {
+            public Heavy get() {
+                return heavyInstance;
+            }
+        }
+        if (!HeavyFactory.class.isInstance(heavy)) {
+            heavy = new HeavyFactory();
+        }
+        return heavy.get();
+    }
+
     public static void main(final String[] args) {
         final Holder holder = new Holder();
         System.out.println("deferring heavy creation...");
         System.out.println(holder.getHeavy());
         System.out.println(holder.getHeavy());
     }
-
-}  
+}
 ```
- 
+`heavy`란 멤버변수는 람다식이므로 `get()`을 호출하기 전까지는 수행이 지연된다.   
+`getHeavy()`에서 `heavy.get()`을 호출하면      
+그때 `createAndCacheHeavy()`란 함수가 수행된다.     
+`createAndCacheHeavy()` 함수는 `synchronized` 라서 `thread-safe`하다.    
+   
+1. `heavy.get()`이 호출된다.   
+2. `createAndCacheHeavy()`함수가 호출된다.   
+3. `if문`으로 `HeavyFactory`의 `instance`인지를 확인하는 과정에서       
+    `HeavyFactory`가 언급되면서 `heavyIsntance`가 생성된다.    
+4. 따라서 `heavy = new HeavyFactory()`가 수행된다.      
+   (`heavy`에는 `HeavyFactory` 객체가 담긴다.)   
+6. `HeavyFactory`의 `get()`함수가 호출되면서 `Heavy`의 `instance`가 `return`된다.    
+     
+**두번째 getHeavy()를 호출하면 어떻게 될까?**     
+1. `heavy.get()`이 불립니다.    
+2. 단. 위 4번에서 **이미 heavy 변수에는 HeavyFactory 객체를 담았다.**   
+3. 따라서 `HeaveFactory의 get()`이 불리면서 `Heavy`객체가 반환된다.   
+       
+이렇게 구조를 만드면 **처음 생성시에만 `synchronized된 함수를 사용하고`**          
+그 이후에는 **일반함수를 호출하는 형태가 된다.**         
+그리고 이와 같은 형식을 `Virtual Proxy Pattern`이라고 부른다.    
 
 # Lamda 사용법
 추상메서드를 1개만 가진 인터페이스를 기준으로 작성할 수 있으며                     
