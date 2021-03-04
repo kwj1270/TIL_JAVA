@@ -776,7 +776,34 @@ public class ArrangeList3 {
 다른 영역에 존재하는 인스턴스의 사용도          
 조건이 맞으면 메서드 레퍼런스를 진행허여 간략화 시킬 수 있다.             
    
-### static 메서드 레퍼런스
+### static 메서드 레퍼런스  
+**람다식 코드**
+```java
+import java.util.function.Function;
+
+public class StaticTest {
+    public static void main(String[] args) {
+        Function<String, Integer> f = s -> Integer.parseInt(s);
+        System.out.println(f.apply("2").getClass().getName());
+    }
+}
+```
+
+**메서드 참조 코드**   
+```java
+import java.util.function.Function;
+
+public class ArrangeList {
+    public static void main(String[] args) {
+        Function<String, Integer> f = Integer::parseInt;
+        System.out.println(f.apply("2").getClass().getName());
+    }
+}
+```
+`Integer`의 `parseInt()`는 `static 메서드`이다.      
+이 같은 `static 메서드`는 `클래스이름 ::메서드`형태로 메서들 레퍼런스를 작성하면 된다.    
+
+
 ### 클래스 이름을 통한 인스턴스 메서드 레퍼런스
 
 ## 생성자 레퍼런스    
