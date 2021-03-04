@@ -719,7 +719,63 @@ public class ToIntBiFunctionTest {
 메서드의 매개변수가 다른 매개변수의 값을 인자로 원할 경우       
 이를 메서드 레퍼런스를 이용하여 간략히 표현할 수 있다.           
    
-### 외부 영역 인스턴스의 메서드 레퍼런스 
+### 외부 영역 인스턴스의 메서드 레퍼런스   
+**람다식 코드**
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Consumer;
+
+class JustSort{
+    public void sort(List<?> list){
+        Collections.reverse(list);
+    }
+}
+
+public class ArrangeList3 {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1,3,5,7,9);
+        list = new ArrayList<>(list);
+        JustSort justSort = new JustSort();
+
+        Consumer<List<Integer>> c = e -> justSort.sort(e);
+        c.accept(list);
+        System.out.println(list);
+    }
+}
+```
+
+**메서드 참조 코드**   
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Consumer;
+
+class JustSort{
+    public void sort(List<?> list){
+        Collections.reverse(list);
+    }
+}
+
+public class ArrangeList3 {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1,3,5,7,9);
+        list = new ArrayList<>(list);
+        JustSort justSort = new JustSort();
+
+        Consumer<List<Integer>> c = justSort::sort;
+        c.accept(list);
+        System.out.println(list);
+    }
+}
+```   
+다른 영역에 존재하는 인스턴스의 사용도          
+조건이 맞으면 메서드 레퍼런스를 진행허여 간략화 시킬 수 있다.             
+   
 ### static 메서드 레퍼런스
 ### 클래스 이름을 통한 인스턴스 메서드 레퍼런스
 
