@@ -777,6 +777,7 @@ import java.util.function.Function;
 public class StaticTest {
     public static void main(String[] args) {
         Function<String, Integer> f = s -> Integer.parseInt(s);
+        System.out.println(f.apply("2").getClass().getName());
     }
 }
 ```
@@ -788,10 +789,17 @@ import java.util.function.Function;
 public class ArrangeList {
     public static void main(String[] args) {
         Function<String, Integer> f = Integer::parseInt;
+        System.out.println(f.apply("2").getClass().getName());
     }
 }
+/* 실행 결과 
+ *
+ * java.lang.Integer
+ *
+ */
 ```
-람다식 내에서 static 메서드 1개만 사용할 경우 이를 람다식으로 처리할 수 있다.   
+`Integer`의 `parseInt()`는 `static 메서드`이다.      
+이 같은 `static 메서드`는 `클래스이름 ::메서드`형태로 메서들 레퍼런스를 작성하면 된다.    
 
 ### 인스턴스 참조 변수를 통한 인스턴스 메서드 참조     
 
