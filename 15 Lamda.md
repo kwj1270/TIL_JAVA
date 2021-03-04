@@ -662,6 +662,63 @@ public class InterfaceStudy {
 
 
 ### 동일 영역 인스턴스의 메서드 레퍼런스 
+**람다식 코드**
+```java
+import java.util.function.ToIntBiFunction;
+
+class MyBox{
+    int number;
+    public MyBox(int number){
+        this.number = number;
+    }
+    public int lager(MyBox other){
+        if(this.number >= other.number) return this.number;
+        return other.number;
+    }
+}
+
+public class ToIntBiFunctionTest {
+    public static void main(String[] args) {
+        MyBox myBox1 = new MyBox(1);
+        MyBox myBox2 = new MyBox(2);
+
+        ToIntBiFunction<MyBox, MyBox> bf = (box1, box2) -> box1.lager(box2);
+        System.out.println(f.apply("2").getClass().getName());       
+    }
+
+}
+```  
+    
+**메서드 레퍼런스 코드**   
+```java
+import java.util.function.ToIntBiFunction;
+
+class MyBox{
+    int number;
+    public MyBox(int number){
+        this.number = number;
+    }
+    public int lager(MyBox other){
+        if(this.number >= other.number) return this.number;
+        return other.number;
+    }
+}
+
+public class ToIntBiFunctionTest {
+    public static void main(String[] args) {
+        MyBox myBox1 = new MyBox(1);
+        MyBox myBox2 = new MyBox(2);
+
+        ToIntBiFunction<MyBox, MyBox> bf = MyBox::lager;
+        System.out.println(f.apply("2").getClass().getName());
+
+    }
+
+}
+```
+메서드의 매개변수가 다른 매개변수의 값을 인자로 원할 경우       
+이를 메서드 레퍼런스를 이용하여 간략히 표현할 수 있다.           
+   
 ### 외부 영역 인스턴스의 메서드 레퍼런스 
 ### static 메서드 레퍼런스
 ### 클래스 이름을 통한 인스턴스 메서드 레퍼런스
