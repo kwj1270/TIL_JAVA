@@ -655,6 +655,319 @@ public class InterfaceStudy {
 
 # Variable Capture
 # 메소드, 생성자 레퍼런스
+# 메서드 참조 
+람다식이 하나의 메서드만 호출하는 경우에 사용하는 방법으로 람다식을 더 간략히 해준다.   
+   
+1. static 메서드 참조  
+2. 인스턴스 참조 변수를 통한 인스턴스 메서드 참조  
+3. 클래스 이름을 통한 인스턴스 메서드 참조  
+4. 생성자 참조 
+
+        
+**람다식 코드**
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Consumer;
+
+public class ArrangeList {
+    public static void main(String[] args) {
+        List<Integer> list  = Arrays.asList(1,3,5,7,9);
+        list = new ArrayList<>(list);
+
+        Consumer<List<Integer>> c = val -> Collections.reverse(val); // 여기서 val은 단지 전달만된다.      
+        c.accept(list);        
+        System.out.println(list);    
+    }   
+      
+}
+```  
+
+**메서드 참조 코드**   
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Consumer;
+
+public class ArrangeList {
+    public static void main(String[] args) {
+        List<Integer> list  = Arrays.asList(1,3,5,7,9);
+        list = new ArrayList<>(list);
+
+        Consumer<List<Integer>> c = Collections::reverse;
+        c.accept(list); 
+        System.out.println(list);
+    }
+
+}
+```
+위 예시와 같이 **람다의 매개변수로 사용된 변수가 또 매개변수로 사용될 경우 이를 생략 가능하다**       
+
+        
+**람다식 코드**
+```java
+import java.util.function.ToIntBiFunction;
+
+class MyBox{
+    int number;
+    public MyBox(int number){
+        this.number = number;
+    }
+    public int lager(MyBox other){
+        if(this.number >= other.number) return this.number;
+        return other.number;
+    }
+}
+
+public class ToIntBiFunctionTest {
+    public static void main(String[] args) {
+        MyBox myBox1 = new MyBox(1);
+        MyBox myBox2 = new MyBox(2);
+
+        ToIntBiFunction<MyBox, MyBox> bf = (box1, box2) -> box1.lager(box2);
+        
+    }
+
+}
+```  
+    
+**메서드 참조 코드**   
+```java
+import java.util.function.ToIntBiFunction;
+
+class MyBox{
+    int number;
+    public MyBox(int number){
+        this.number = number;
+    }
+    public int lager(MyBox other){
+        if(this.number >= other.number) return this.number;
+        return other.number;
+    }
+}
+
+public class ToIntBiFunctionTest {
+    public static void main(String[] args) {
+        MyBox myBox1 = new MyBox(1);
+        MyBox myBox2 = new MyBox(2);
+
+        ToIntBiFunction<MyBox, MyBox> bf = MyBox::lager;
+
+    }
+
+}
+```
+또다른 예시로 **람다의 매개변수중 하나가 다른 매개변수를 또 매개변수로 사용할 때 생략가능하다**     
+
+
+### 하지만 
+정확히 말하자면 메서드 참조는 앞서 말했듯 람다식에서 **메서드가 1개만 호출될때 사용하는 것이다.**         
+즉 1번 처럼 클래스의 메서드를 사용하든 2번 처럼 매개변수의 메서드를 사용하든           
+**그저 람다식내에서 메서드가 1개이면 사용이 가능하다는 것을 의미하고 이를 알 수 있다.**   
+
+## 1. static 메서드 참조    
+
+**람다식 코드**
+```java
+import java.util.function.Function;
+
+public class StaticTest {
+    public static void main(String[] args) {
+        Function<String, Integer> f = s -> Integer.parseInt(s);
+    }
+}
+```
+
+**메서드 참조 코드**   
+```java
+import java.util.function.Function;
+
+public class ArrangeList {
+    public static void main(String[] args) {
+        Function<String, Integer> f = Integer::parseInt;
+    }
+}
+```
+람다식 내에서 static 메서드 1개만 사용할 경우 이를 람다식으로 처리할 수 있다.   
+
+## 2. 인스턴스 참조 변수를 통한 인스턴스 메서드 참조     
+
+**람다식 코드**
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Consumer;
+
+class JustSort{
+    public void sort(List<?> list){
+        Collections.reverse(list);
+    }
+}
+
+public class ArrangeList3 {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1,3,5,7,9);
+        list = new ArrayList<>(list);
+        JustSort justSort = new JustSort();
+
+        Consumer<List<Integer>> c = e -> justSort.sort(e);
+        c.accept(list);
+        System.out.println(list);
+    }
+}
+```
+
+**메서드 참조 코드**   
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Consumer;
+
+class JustSort{
+    public void sort(List<?> list){
+        Collections.reverse(list);
+    }
+}
+
+public class ArrangeList3 {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1,3,5,7,9);
+        list = new ArrayList<>(list);
+        JustSort justSort = new JustSort();
+
+        Consumer<List<Integer>> c = justSort::sort;
+        c.accept(list);
+        System.out.println(list);
+    }
+}
+```   
+외부 인스턴스변수를 사용하더라도 **람다식 내에서 함수 1개만 사용하므로 메서드 참조를 사용할 수 있다.**    
+
+## 3. 클래스 이름을 통한 인스턴스 메서드 참조        
+
+**람다식 코드**
+```java
+import java.util.function.ToIntBiFunction;
+
+class MyBox{
+    int number;
+    public MyBox(int number){
+        this.number = number;
+    }
+    public int lager(MyBox other){
+        if(this.number >= other.number) return this.number;
+        return other.number;
+    }
+}
+
+public class ToIntBiFunctionTest {
+    public static void main(String[] args) {
+        MyBox myBox1 = new MyBox(1);
+        MyBox myBox2 = new MyBox(2);
+
+        ToIntBiFunction<MyBox, MyBox> bf = (box1, box2) -> box1.lager(box2);
+        
+    }
+
+}
+```  
+    
+**메서드 참조 코드**   
+```java
+import java.util.function.ToIntBiFunction;
+
+class MyBox{
+    int number;
+    public MyBox(int number){
+        this.number = number;
+    }
+    public int lager(MyBox other){
+        if(this.number >= other.number) return this.number;
+        return other.number;
+    }
+}
+
+public class ToIntBiFunctionTest {
+    public static void main(String[] args) {
+        MyBox myBox1 = new MyBox(1);
+        MyBox myBox2 = new MyBox(2);
+
+        ToIntBiFunction<MyBox, MyBox> bf = MyBox::lager;
+
+    }
+
+}
+```
+앞서 위에서 봤던 코드다.    
+`참조변수를 통한 인스턴스 메서드 참조` 는 외부에서 인스턴스 변수의 메서드를 호출할 때를 의미하고      
+`클래스 이름을 통한 인스턴스 메서드 참조`는 **내부 매개변수의 메서드를 호출할 때를 의미한다.**        
+그리고 이 모든 공통점은 **메서드가 1개밖에 없다는 것이다**    
+
+## 4. 생성자 참조    
+
+**람다식 코드**
+```java
+import java.util.function.Function;
+
+public class StringMaker {
+    public static void main(String[] args) {
+        Function<char[], String> f = ar -> new String(ar);
+
+        char[] src = {'R', 'o', 'b', 'o', 't'};
+        String str = f.apply(src);
+
+        System.out.println(str);
+    }
+}
+```
+
+**메서드 함수**
+```java
+import java.util.function.Function;
+
+public class StringMaker {
+    public static void main(String[] args) {
+        Function<char[], String> f = String::new;
+
+        char[] src = {'R', 'o', 'b', 'o', 't'};
+        String str = f.apply(src);
+
+        System.out.println(str);
+    }
+}
+```
+**생성자도 일종의 메서드이기에 매개 변수만 맞을 경우 이를 사용할 수 있다.**          
+또한 매개변수가 없는 생성자라도 똑같은 방법으로 만들 수 있다.        
+여기서도 알아둘 점은 사용하는 메서드(생성자) 1개 뿐일 때 가능했다는 것이다.      
+    
+## 번외-System.out.println    
+
+```java
+import java.util.Arrays;
+import java.util.List;
+
+public class ArrangeList {
+    public static void main(String[] args) {
+        List<String> list = Arrays.asList("BOX", "ROBOT");
+        list.forEach(s -> System.out.println(s));
+        list.forEach(System.out::println);
+    }
+}
+```
+참고로 out은 System 클래스 내에 존재하는 `인스턴스 참조 변수` 이다.     
+즉 어떤 인스턴스를 참조하고 있고 거기에는 ```print``` 관련 메서드들이 있는 것이었다.     
+out 은 인스턴스 참조 변수이고 이중 메서드 1개만 이용할 경우 `참조변수를 통한 인스턴스 메서드 참조`가 성립된다.   
+그렇기에 ```System.out.println()``` 에 대해서도 메서드 참조가 가능하다.     
+    
+
 # 참고 
 [KTKO 개발 블로그와 여행 일기 - 자바 람다와 함수형 인터페이스](https://ktko.tistory.com/entry/자바-18-버전-특성람다-인터페이스-부분-정리해보기)    
 
