@@ -416,6 +416,243 @@ public class OneParamNoReturn {
 ```
 
 # Functional Interface
+
+## 표준 인터페이스 레퍼런스와 구현체
+자바에서는 표준으로 정의하고 있는, 즉 '미리 정의된' 함수형 인터페이스들이 있다.      
+함수형 인터페이스란 인터페이스의 추상 메서드가 1개인 메서드를 의미한다.      
+
+```java
+@FunctionalInterface
+interface SampleInterface {
+    void sampleAbstractMethod();
+}
+```   
+   
+클래스는 `IS-A` 관계로 상속에 있어 물려줄 구성 요소가 적당히 많으면 좋다.       
+반대로 인터페이스는 `Has-A` 관계를 가지기에 추상메서드의 갯수가 적을수록 이상적이다.                     
+추상메서드를 1개만 이같이 이상적인 형태의 인터페이스를 함수형 인터페이스라 말한다.          
+추상메서드가 1개인데 여러개의 default, static 메서드를 가져도 함수형 인터페이스이다.     
+참고로 `@FunctionalInterface`를 통해 함수형 인터페이스 정의를 강제할 수 있다.         
+
+   
+**본론으로**       
+자바에서 표준으로 제공하는 인터페이스는 아래와 같다.      
+
+|인터페이스|추상 메서드|
+|-------|--------|
+|`Predicate<T>`|`boolaen test(T t)`|
+|`Supplier<T>`|`T get()`|
+|`Consumer<T>`|`void accept(T t)`|
+|`Function<T, R>`|`R apply(T t)`|
+    
+이런 함수형 인터페이스와 추상형메서드에 대한 사용은 조금 복잡할 수 있다.       
+조금 복잡하더라도 양해 부탁드리고 아래 로직을 반복해서 읽기를 바란다.  
+물론, 내일중으로 그림을 그려 설명할 예정이다.       
+      
+```
+AbstractClass 의 AbstractMethod 존재      
+AbstractMethod 매개변수로 함수형 인터페이스를 원함       
+AbstractMethod 내부에서 함수형 인터페이스의 추상 메서드를 사용하기 때문   
+
+이를 이제 구현된 관점에서 보면 아래와 같다.    
+AbstractClass 구현한 ConcreteClass
+ConcreteClass 클래스이기에 AbstractMethod 구현한 ConcreteMethod 존재   
+ConcreteMethod는 AbstractMethod를 따르기에 매개변수로 함수형 인터페이스를 원함     
+정확히 말하면 다형성을 위해 함수형 인터페이스를 구현한 클래스를 원함     
+함수형 인터페이스를 구현한 클래스는 함수형 인터페이스의 추상 메서드를 구현했고    
+ConcreteMethod는 구현된 추상메서드를 사용하기 때문이다.      
+```
+    
+## `Predicate<T>`    
+`boolaen test(T t)` 추상 메서드를 가진 함수형 인터페이스다.    
+전달된 인자를 판단하여 true/false 값을 리턴하는데 사용된다.   
+
+```java
+@FunctionalInterface
+public interface Predicate<T> {
+
+    boolean test(T t); // 혼자만 추상형 메서드
+
+    default Predicate<T> and(Predicate<? super T> other) {
+        Objects.requireNonNull(other);
+        return (t) -> test(t) && other.test(t);
+    }
+
+    default Predicate<T> negate() {
+        return (t) -> !test(t);
+    }
+
+    default Predicate<T> or(Predicate<? super T> other) {
+        Objects.requireNonNull(other);
+        return (t) -> test(t) || other.test(t);
+    }
+
+    static <T> Predicate<T> isEqual(Object targetRef) {
+        return (null == targetRef)
+                ? Objects::isNull
+                : object -> targetRef.equals(object);
+    }
+}
+
+```
+```java
+    Stream<T> filter(Predicate<? super T> predicate);
+```
+```java
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1,2,3,4,5);
+        list = list.stream().filter(i -> i <= 3).collect(Collectors.toList());
+        list.stream().forEach(System.out::println);
+    }
+}
+```
+* `Stream<E>`인터페이스의 `filter()`는 매개변수로 `Predicate<T>`구현 객체를 원한다.  
+* `filter()` 내부적으로 `boolaen test(T t)`메서드를 사용하기 때문이다.   
+* `filter()` 의 정확한 로직은 모르지만 `true`를 반환하는 요소만 남길 것이다.
+   
+    
+## `Supplier<T>`
+`T get()` 추상 메서드를 가진 함수형 인터페이스다.    
+매개변수가 없으며 제네릭 타입으로 값을 리턴하는데 사용된다.   
+
+
+```java
+@FunctionalInterface
+public interface Supplier<T> {
+    T get();
+}
+```
+```java
+    // stream에서 예제를 찾기 힘들어 사용자가 정의한 메서드를 예시로 들었다.   
+    // 소스코드 출처 : 윤성우의 열혈 java 프로그래밍
+
+    public static List<Integer> makeIntList(Supplier<Integer> s, int n) {
+        List<Integer> list = new ArrayList<>();
+        for(int i = 0; i < n; i++)
+            list.add(s.get());   // 난수를 생성해 담는다.
+        return list;
+    }
+```
+```java
+public class InterfaceStudy {
+    public static List<Integer> makeIntList(Supplier<Integer> s, int n) {
+        List<Integer> list = new ArrayList<>();
+        for(int i = 0; i < n; i++)
+            list.add(s.get());   // 난수를 생성해 담는다.
+        return list;
+    }
+
+    public static void main(String[] args) {
+        Supplier<Integer> spr = () -> {
+            Random rand = new Random();
+            return rand.nextInt(50);
+        };
+
+        List<Integer> list = makeIntList(spr, 5); // Supplier 타입의 매개변수 사용
+        System.out.println(list);
+
+        list = makeIntList(spr, 10);
+        System.out.println(list);
+    }
+
+}
+```
+* `makeIntList()`는 `Supplier<T>`을 구현한 객체를 원하고 있다.   
+* `makeIntList()` 내부적으로 구현된 `T get()`를 사용하기 때문이다.      
+* `makeIntList()` 의 정확한 로직은 모르지만 반환된 요소들을 활용할 것이다.   
+    
+       
+## `Consumer<T>`
+`void accept(T t)` 추상 메서드를 가진 함수형 인터페이스다.        
+반환형이 없으며 제네릭 타입의 매개변수로 들어온 객체를 사용만 한다.      
+
+```java
+@FunctionalInterface
+public interface Consumer<T> {
+    void accept(T t);
+
+    default Consumer<T> andThen(Consumer<? super T> after) {
+        Objects.requireNonNull(after);
+        return (T t) -> { accept(t); after.accept(t); };
+    }
+}
+```
+```java
+    void forEach(Consumer<? super T> action);
+```
+```java
+public class InterfaceStudy {
+
+    public static void main(String[] args) {
+        List<Integer> arr = Arrays.asList(1, 2, 3, 4, 5);
+        arr.stream().forEach(i -> System.out.println(i));
+        // arr.stream().forEach(System.out::println);
+    }
+    
+}
+```
+* `forEach()`는 `Consumer<T>`을 구현한 객체를 원하고 있다.           
+* `forEach()` 내부적으로 구현된 `void accept(T t)`를 사용하기 때문이다.           
+* `forEach()` 의 정확한 로직은 모르지만 인자로 들어온 요소를 활용하고 반환은 없다.       
+
+참고로 `Consumer<>`를 구현한 객체를 원하는 경우, 메서드 레퍼런스를 사용하는 경우가 있다.        
+* 메서드 레퍼런스란? :
+  * 람다식이 메서드 하나만 호출하는 경우에 사용하는 방법으로 람다식을 더 간략히 해준다.      
+  * `Consumer<>`의 `accept(T t)`메서드에 람다식을 정의할 때            
+  * 매개변수를 다른 함수의 매개변수로 사용하고 해당 로직만 기술한다고 가정한다면          
+  * 람다식이 하나의 메서드만 호출하는 경우이므로 메서드 레퍼런스로 기술할 수 있다. 
+   
+     
+## `Function<T, R>`      
+`R apply(T t)` 추상 메서드를 가진 함수형 인터페이스다.                 
+제네릭의 첫 번째 타입이 매개변수의 자료형이며 두 번째 타입이 반환형인 특징이 있다.          
+즉, 첫 번째 제네릭 타입을 통해 두 번째 제네릭 타입을 이끌어내는 경우에 사용한다.      
+   
+```java
+@FunctionalInterface
+public interface Function<T, R> {
+
+    R apply(T t);
+
+    default <V> Function<V, R> compose(Function<? super V, ? extends T> before) {
+        Objects.requireNonNull(before);
+        return (V v) -> apply(before.apply(v));
+    }
+
+    default <V> Function<T, V> andThen(Function<? super R, ? extends V> after) {
+        Objects.requireNonNull(after);
+        return (T t) -> after.apply(apply(t));
+    }
+
+    static <T> Function<T, T> identity() {
+        return t -> t;
+    }
+}
+
+```
+```java
+    <R> Stream<R> map(Function<? super T, ? extends R> mapper);
+```
+```java
+public class InterfaceStudy {
+
+    public static void main(String[] args) {
+        List<Integer> arr = Arrays.asList(1, 2, 3, 4, 5);
+        List<String> strArr = arr.stream().map(i -> String.valueOf(i)).collect(Collectors.toList());
+        strArr.stream().forEach(System.out::println);
+    }
+
+}
+```
+* `map()`는 `Function<T, R>`을 구현한 객체를 원하고 있다.           
+* `map()` 내부적으로 구현된 `R apply(T t)`를 사용하기 때문이다.           
+* `map()` 의 정확한 로직은 모르지만 인자로 들어온 요소를 활용하고 알맞은 반환을 한다.    
+    
+`Function<T, R>`의 `R apply(T t)`를 사용하는 가장 대표적인 예는 `map()`이다.   
+`map()`은 인자로 들어온 값을 특정 자료형으로 반환하는 특징이 있다.        
+즉, 매개변수를 활용해 알맞은 자료형의 데이터를 반환한다는 것이다.        
+
 # Variable Capture
 # 메소드, 생성자 레퍼런스
 # 참고 
