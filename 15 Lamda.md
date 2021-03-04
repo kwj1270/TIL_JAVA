@@ -6,7 +6,11 @@
 [3. Functional Interface](#functional-interface)        
 [4. Variable Capture](#variable-capture)         
 [5. 메소드, 생성자 레퍼런스](#메소드생성자-레퍼런스)      
-     
+       
+추가할 것 -> lazy/캡쳐 방식 3개  
+
+       
+       
 # Lamda         
 자바는 `JDK 8` 에 도입된 `Lamda`로 인해               
 **객체지향언어인 동시에 함수형 언어**가 되었다고 평가된다.              
