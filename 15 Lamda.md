@@ -676,7 +676,11 @@ public class InterfaceStudy {
                   
 그렇기에 스레드간의 지역 변수를 공유하지 못하도록 한 것이며       
 이는 다른 프로그래밍 언어에서도 마찬가지이다.      
-
+     
+반대로, 객체나 정적 요소들은 왜 사용이 가능한 것인가?        
+이는 메모리 구조에 대한 연장선으로 이들은 `클래스 영역`이나 `힙 영역`에 존재한다.     
+이들은 스레드들 간에 공유를 해도 문제가 없기에 사용을 가능하도록 설정한 것이다.    
+   
 **익명 클래스**
 ```java
    JButton button = new JButton("Press me!");
@@ -708,10 +712,8 @@ Java 컴파일러는 `외부` 변수와 `내부` 변수 값 사이의 불일치�
 **`effectively final`이란** Java 8 에 추가된 syntactic sugar 일종으로,     
 **초기화 된 이후 값이 한번도 변경되지 않은 것을 의미한다.**                       
 `effectively final`변수는 `final` 키워드가 붙어있지 않았지만 값이 변형되지 않았기에    
-**`final` 키워드를 붙힌 것과 동일하게 컴파일러에서 처리한다.**         
-
-
-
+**`final` 키워드를 붙힌 것과 동일하게 컴파일러에서 처리한다.**           
+그리고 이러한 특성 덕분에 람다/익명 클래스에서 무리없이 사용이 가능하다.   
 
 # 메소드/생성자 레퍼런스
 ## 메서드 레퍼런스 
@@ -946,5 +948,6 @@ public class ArrangeList {
     
 
 # 참고 
-[KTKO 개발 블로그와 여행 일기 - 자바 람다와 함수형 인터페이스](https://ktko.tistory.com/entry/자바-18-버전-특성람다-인터페이스-부분-정리해보기)    
-
+[KTKO 개발 블로그와 여행 일기 - 자바 람다와 함수형 인터페이스](https://ktko.tistory.com/entry/자바-18-버전-특성람다-인터페이스-부분-정리해보기)       
+[stackoverflow-What are captured variables in Java Local Classes](https://stackoverflow.com/questions/22025161/what-are-captured-variables-in-java-local-classes)  
+[vagabond95님의 블로그 - lambda 와 effectively final](https://vagabond95.me/posts/lambda-with-final/)   
