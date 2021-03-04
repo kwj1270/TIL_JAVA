@@ -5,7 +5,7 @@
 [2. Lamda 사용법](#lamda-사용법)             
 [3. Functional Interface](#functional-interface)        
 [4. Variable Capture](#variable-capture)         
-[5. 메소드, 생성자 레퍼런스](#메서드-생성자-레퍼런스)      
+[5. 메소드, 생성자 레퍼런스](#메소드생성자-레퍼런스)      
      
 # Lamda         
 자바는 `JDK 8` 에 도입된 `Lamda`로 인해               
