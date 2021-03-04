@@ -320,14 +320,101 @@ public class Main {
 
 }  
 ```
-  
-
-
-
-
-
-
+ 
 # Lamda 사용법
+추상메서드를 1개만 가진 인터페이스를 기준으로 작성할 수 있으며                     
+인터페이스를 구현하고 추상메서드를 정의해서 사용했던 것과 달리                    
+**추상 메서드의 내부 로직만을 정의하여 바로 사용할 수 있다.**                     
+    
+**람다 예시**   
+```java
+@FunctionalInterface
+interface Printable{
+    void print(String s);
+}
+
+@FunctionalInterface
+interface Printable2{
+    void print();
+}
+
+
+public class OneParamNoReturn {
+    public static void main(String[] args) {
+        Printable p;
+        Printable2 p2;
+        p = (String s) -> { System.out.println(s); };
+        p.print("Lambda exp one.");
+
+        p = (String s) ->  System.out.println(s);
+        p.print("Lambda exp two.");
+
+        p = (s) -> System.out.println(s);
+        p.print("Lambda exp three.");
+
+        p = s -> System.out.println(s);
+        p.print("Lambda exp four.");
+        
+        p2 = () -> System.out.println("NO ARGUMENT");
+    }
+
+}
+```
+   
+람다는 기본적으로 아래와 같은 형태를 가진다.  
+   
+```java
+() -> {}
+```      
+`()`는 메서드의 매개변수 형태를         
+`{}`는 메서드의 Body 부분 및 return을 나타낸다.       
+return의 경우 추상 메서드의 반환형에 맞추어 마지막 라인을 return 값으로 사용한다.      
+
+그리고 Lamda식은 아래와 같은 문법 또한, 허용한다.   
+           
+1. `void일 때` 내용이 1개밖에 없을 경우 또는 리턴하는 내용만 있을 경우 `{}`를 생략할 수 있다.            
+2. 자료형을 생략할 수 있다. (매개변수 갯수 제한 없음)             
+3. 매개변수가 1개일때 `()`를 생략할 수 있다.          
+4. 매개변수가 없는 람다일 경우 `()` 만 사용해준다.         
+5. `@FunctionalInterface`는 해당 인터페이스가 추상 메서드를 1개만 가지고 있는지 검증해준다. -> 람다식에 부합한지 검사             
+   
+실제로 위와같이 사용하지 않고 **매개변수로 함수형 인터페이스(람다형 인터페이스)를 가진 메서드에 주로 사용된다.**   
+     
+**실제 사용 용도**
+```java
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class OneParamNoReturn {
+    public static void main(String[] args) {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        list.add(5);
+
+        List<Integer> list2 = list.stream().filter( intValue -> intValue <= 3 ).collect(Collectors.toList()); // 람다 사용
+        List<Integer> list3 = list.stream().map( intValue -> intValue = 3 ).collect(Collectors.toList()); // 람다 사용 
+
+        Iterator<Integer> it =  list2.iterator();
+        while (it.hasNext()){
+            System.out.print(" list2 : " + it.next()+",");
+        }
+
+        System.out.println();
+
+        it =  list3.iterator();
+        while (it.hasNext()){
+            System.out.print(" list3 : " + it.next());
+        }
+    }
+
+}
+```
+
 # Functional Interface
 # Variable Capture
 # 메소드, 생성자 레퍼런스
