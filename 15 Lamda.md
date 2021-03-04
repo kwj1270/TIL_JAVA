@@ -658,11 +658,9 @@ public class InterfaceStudy {
 ## 메서드 레퍼런스 
 람다식이 하나의 메서드만 호출하는 경우에 사용하는 방법으로 람다식을 더 간략히 해준다.   
    
-1. static 메서드 참조  
-2. 인스턴스 참조 변수를 통한 인스턴스 메서드 참조  
-3. 클래스 이름을 통한 인스턴스 메서드 참조  
-4. 생성자 참조 
-
+1. static 메서드 레퍼런스  
+2. 인스턴스 참조 변수를 통한 인스턴스 메서드 레퍼런스  
+3. 클래스 이름을 통한 인스턴스 메서드 레퍼런스  
         
 **람다식 코드**
 ```java
@@ -685,7 +683,7 @@ public class ArrangeList {
 }
 ```  
 
-**메서드 참조 코드**   
+**메서드 레퍼런스 코드**   
 ```java
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -704,10 +702,10 @@ public class ArrangeList {
     }
 
 }
-```
-위 예시와 같이 **람다의 매개변수로 사용된 변수가 또 매개변수로 사용될 경우 이를 생략 가능하다**       
-
-        
+```  
+위 예시와 같이      
+**람다의 인자값이 다른 메서드의 인자값으로 그대로 사용될 경우 이를 생략 가능하다**         
+       
 **람다식 코드**
 ```java
 import java.util.function.ToIntBiFunction;
@@ -735,7 +733,7 @@ public class ToIntBiFunctionTest {
 }
 ```  
     
-**메서드 참조 코드**   
+**메서드 레퍼런스 코드**   
 ```java
 import java.util.function.ToIntBiFunction;
 
@@ -761,7 +759,7 @@ public class ToIntBiFunctionTest {
 
 }
 ```
-또다른 예시로 **람다의 매개변수중 하나가 다른 매개변수를 또 매개변수로 사용할 때 생략가능하다**     
+**람다의 매개변수 중 하나가 다른 매개변수를 또 매개변수로 사용할 때 생략가능하다**     
    
 **하지만** 
 정확히 말하자면 메서드 참조는 앞서 말했듯 람다식에서 **메서드가 1개만 호출될때 사용하는 것이다.**         
