@@ -1008,3 +1008,4 @@ public class ArrangeList {
 [KTKO 개발 블로그와 여행 일기 - 자바 람다와 함수형 인터페이스](https://ktko.tistory.com/entry/자바-18-버전-특성람다-인터페이스-부분-정리해보기)       
 [stackoverflow-What are captured variables in Java Local Classes](https://stackoverflow.com/questions/22025161/what-are-captured-variables-in-java-local-classes)   
 [vagabond95님의 블로그 - lambda 와 effectively final](https://vagabond95.me/posts/lambda-with-final/)   
+ 
