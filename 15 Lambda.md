@@ -150,6 +150,7 @@ me.kwj1270.javaapi.test.AnonymousClassTest$1
 일반 클래스라도 이를 상속받아 진행하는 것을 알게 되었다.  
     
 <img width="1486" alt="AnonymousClassByteCode" src="https://user-images.githubusercontent.com/50267433/109666175-4bbced80-7bb2-11eb-8d08-72573af24a76.png">   
+
    
 추가로, 바이트 코드를 확인했을 때도 클래스를 상속받아 진행하는 것을 알 수 있다.      
     
@@ -1008,4 +1009,3 @@ public class ArrangeList {
 [KTKO 개발 블로그와 여행 일기 - 자바 람다와 함수형 인터페이스](https://ktko.tistory.com/entry/자바-18-버전-특성람다-인터페이스-부분-정리해보기)       
 [stackoverflow-What are captured variables in Java Local Classes](https://stackoverflow.com/questions/22025161/what-are-captured-variables-in-java-local-classes)   
 [vagabond95님의 블로그 - lambda 와 effectively final](https://vagabond95.me/posts/lambda-with-final/)   
- 
