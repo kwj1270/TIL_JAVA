@@ -757,7 +757,7 @@ public class EventConsumerImpl {
 
 
 ## Static Variable Capture    
-`Lambda 표현식`은 `static 변수`를 캡처할 수 있다.       
+`Lambda 표현식`은 `static 변수`를 캡처할 수 있다.        
       
 ```java
 public class EventConsumerImpl {
