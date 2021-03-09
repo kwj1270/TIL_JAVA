@@ -311,7 +311,7 @@ class Holder {
    (`heavy`에는 `HeavyFactory` 객체가 담긴다.)   
 6. `HeavyFactory`의 `get()`함수가 호출되면서 `Heavy`의 `instance`가 `return`된다.    
      
-**두번째 getHeavy()를 호출하면 어떻게 될까?**     
+**두번째 getHeavy()를 호출하면 어떻게 될까?**      
 1. `heavy.get()`이 불립니다.    
 2. 단. 위 4번에서 **이미 heavy 변수에는 HeavyFactory 객체를 담았다.**   
 3. 따라서 `HeaveFactory의 get()`이 불리면서 `Heavy`객체가 반환된다.   
