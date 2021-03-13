@@ -68,7 +68,7 @@ Java에서의 `ByteCode`는 JVM이 이해할 수 있는 언어로 변환된 `.cl
 
 # 📗 JVM 동작 과정과 구성 요소
 
-![JVMProcess.png](./images/JVM/JVMProcess.png)
+![JVMProcess.png](./images/JVMProcess.png)
 
 **JVM 동작 과정**   
 1. JVM은 OS로부터 프로그램이 필요로 하는 메모리를 할당받는다.         
