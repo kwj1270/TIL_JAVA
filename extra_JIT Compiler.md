@@ -99,7 +99,9 @@ b = obj1.equals(obj2);
 **시간 비교**
 - 스타트업 시간 :  -client < -xx:+TieredCompilation < -server
 - 코드실행 시간 : - xx:+TieredCompilation = -server < -client
-   
+- 상황에 따라 알맞은 컴파일러를 지정해서 사용하도록 합시다!       
+     
+  
 ## start-up  
 
 
