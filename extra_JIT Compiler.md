@@ -1,5 +1,5 @@
-# 들어가면서 
-    
+# JIT Compiler    
+      
 **JVM의 핵심 기능**이라고 할 수 있는 `JIT Compiler`에 대해서 알아보고자 합니다.       
                                         
 `JIT`의 의미는 `Just-In-Time`이라는 이름 그대로 `그 순간`을 의미합니다.    
@@ -73,8 +73,8 @@ b = obj1.equals(obj2);
 ```
 여기는 나중에 채우자  
 
-     
-## JIT Compiler의 종류         
+    
+# JIT Compiler의 종류         
 `JIT Compiler`는 `서버`와 `클라이언트` 두 가지 형태로 나눠지며,      
 사용할 형태는 프로그램이 수행되는 기간과 초기 스타트업 시간의 중요도를 바탕으로 선택합니다.     
 (현재 사용하는 컴파일러 종류는 java -version을 보면 확인 가능합니다.)   
@@ -99,7 +99,8 @@ b = obj1.equals(obj2);
 **시간 비교**
 - 스타트업 시간 :  -client < -xx:+TieredCompilation < -server
 - 코드실행 시간 : - xx:+TieredCompilation = -server < -client
-
+   
+## start-up  
 
 
 
