@@ -17,7 +17,7 @@
 * 스택 기반의 가상 머신으로 LIFO 원칙으로 동작한다.           
     
 ## 📖 Write once, run anywhere         
-![WORA.png](./images/JVM/WORA.png)
+![WORA.png](./images/WORA.png)
 
 **플랫폼 종속성**   
 1. 기계어가 CPU마다 다르다.  
@@ -55,7 +55,7 @@ Java에서의 `ByteCode`는 JVM이 이해할 수 있는 언어로 변환된 `.cl
       
 * CLI 기준 :  `javap -c FQCN_(.class 파일)`    
          
-![ByteCodeCLI.png](./images/JVM/ByteCodeCLI.png)	    
+![ByteCodeCLI.png](./images/ByteCodeCLI.png)	    
    
 
 * Mac + IntelliJ 기준 :              
@@ -63,7 +63,7 @@ Java에서의 `ByteCode`는 JVM이 이해할 수 있는 언어로 변환된 `.cl
   2. `command + shift + a`를 누른다.  
   3. Actions 탭에서 `Show Bytecode`를 입력후 누른다.        
 
-![ByteCode.png](./images/JVM/ByteCode.png)
+![ByteCode.png](./images/ByteCode.png)
    
 
 # 📗 JVM 동작 과정과 구성 요소
@@ -224,7 +224,7 @@ Heap에 저장된 인스턴스가 참조되지 않거나 더 이상 사용되지
   * 이 영역을 제외한 나머지 영역의 객체를 삭제한다.      
         
 # 📘 JDK와 JRE    
-![JDKAndJRE.png](./images/JVM/JDKAndJRE.png)
+![JDKAndJRE.png](./images/JDKAndJRE.png)
 ## 📖 JRE       
 > Java Runtime Environment       
    
