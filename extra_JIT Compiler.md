@@ -110,7 +110,8 @@ b = obj1.equals(obj2);
 그렇기에 `Tiered Compile`나 `Client Compiler`를 사용하는           
 **대형 프로그램**이라면 `Coad Cache`사이즈를 늘릴 필요가 있습니다.              
 (Server Compiler는 몇개의 소수 클래스만 컴파일 하므로 Coad Cache를 채울 일은 그다지 없습니다.)       
-                
+           
+**다양한 플랫폼에서의 Coad Cache 디폴트 값 목록**
 |JVM 타입|디폴트 코드 캐시 크기|
 |--------|-------------------|
 |32bit 클라이언트 자바 8|32MB|
