@@ -39,7 +39,7 @@ CPU는 **어셈블리나 바이너리코드라고 불리는 특정 명령만을 
                                                                                    
 `Java`는 여기서 절충안을 찾으려고 시도합니다.                 
 바이트 코드를 `JIT Complier` 한 줄씩 읽으면서 `바이너리 코드`로 `변환`을 하는 방식을 채택했습니다.                    
-여기까지는` Java Interpreter` 와 크게 다를게 없지만 **`JVM`의 `CodeCache`에 `Caching`해놓습니다.**                   
+여기까지는`Java Interpreter` 와 크게 다를게 없지만 **`JVM`의 `CodeCache`에 `Caching`해놓습니다.**                   
 그렇기에, 같은 코드가 나오더라도 매번 바이너리 코드로 해석하는 작업을 하는 `Java Interpreter`와 달리,                
 같은 코드가 나온다면 **다시 번역할 필요 없이 Code Cache에서 해당 바이너리 코드를 가져와 사용합니다.**                      
         
